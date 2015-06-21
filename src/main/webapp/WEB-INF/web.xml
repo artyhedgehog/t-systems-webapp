@@ -8,7 +8,7 @@
   	<servlet-name>HelloServlet</servlet-name>
   	<display-name>HelloServlet</display-name>
   	<description></description>
-  	<servlet-class>com.tsystems.webapp.servlets.HelloServlet</servlet-class>
+  	<servlet-class>com.tsystems.logiweb.servlets.HelloServlet</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>HelloServlet</servlet-name>
