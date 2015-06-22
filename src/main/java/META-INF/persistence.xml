@@ -8,6 +8,21 @@
     name="logiweb"
     transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.tsystems.logiweb.models.CargoStatus</class>
+    <class>com.tsystems.logiweb.models.Cargo</class>
+    <class>com.tsystems.logiweb.models.DriverStatus</class>
+    <class>com.tsystems.logiweb.models.DriverWorkSummary</class>
+    <class>com.tsystems.logiweb.models.Driver</class>
+    <class>com.tsystems.logiweb.models.DriverState</class>
+    <class>com.tsystems.logiweb.models.Order</class>
+    <class>com.tsystems.logiweb.models.OrderToDriver</class>
+    <class>com.tsystems.logiweb.models.OrderWaypoint</class>
+    <class>com.tsystems.logiweb.models.Road</class>
+    <class>com.tsystems.logiweb.models.Town</class>
+    <class>com.tsystems.logiweb.models.TruckCondition</class>
+    <class>com.tsystems.logiweb.models.Truck</class>
+    <class>com.tsystems.logiweb.models.TruckState</class>
+    <class>com.tsystems.logiweb.models.WaypointType</class>
     <validation-mode>AUTO</validation-mode>
     <properties>
       <property
