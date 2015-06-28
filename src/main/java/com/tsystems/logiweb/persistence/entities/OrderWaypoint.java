@@ -1,4 +1,4 @@
-package com.tsystems.logiweb.dao.entities;
+package com.tsystems.logiweb.persistence.entities;
 
 import java.io.Serializable;
 

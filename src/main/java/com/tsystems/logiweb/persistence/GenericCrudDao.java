@@ -1,4 +1,4 @@
-package com.tsystems.logiweb.dao;
+package com.tsystems.logiweb.persistence;
 
 import java.io.Serializable;
 import java.util.List;

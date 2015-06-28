@@ -8,21 +8,21 @@
     name="logiweb"
     transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>com.tsystems.logiweb.dao.entities.CargoStatus</class>
-    <class>com.tsystems.logiweb.dao.entities.Cargo</class>
-    <class>com.tsystems.logiweb.dao.entities.DriverStatus</class>
-    <class>com.tsystems.logiweb.dao.entities.DriverWorkSummary</class>
-    <class>com.tsystems.logiweb.dao.entities.Driver</class>
-    <class>com.tsystems.logiweb.dao.entities.DriverState</class>
-    <class>com.tsystems.logiweb.dao.entities.Order</class>
-    <class>com.tsystems.logiweb.dao.entities.OrderToDriver</class>
-    <class>com.tsystems.logiweb.dao.entities.OrderWaypoint</class>
-    <class>com.tsystems.logiweb.dao.entities.Road</class>
-    <class>com.tsystems.logiweb.dao.entities.Town</class>
-    <class>com.tsystems.logiweb.dao.entities.TruckCondition</class>
-    <class>com.tsystems.logiweb.dao.entities.Truck</class>
-    <class>com.tsystems.logiweb.dao.entities.TruckState</class>
-    <class>com.tsystems.logiweb.dao.entities.WaypointType</class>
+    <class>com.tsystems.logiweb.persistence.entities.CargoStatus</class>
+    <class>com.tsystems.logiweb.persistence.entities.Cargo</class>
+    <class>com.tsystems.logiweb.persistence.entities.DriverStatus</class>
+    <class>com.tsystems.logiweb.persistence.entities.DriverWorkSummary</class>
+    <class>com.tsystems.logiweb.persistence.entities.Driver</class>
+    <class>com.tsystems.logiweb.persistence.entities.DriverState</class>
+    <class>com.tsystems.logiweb.persistence.entities.Order</class>
+    <class>com.tsystems.logiweb.persistence.entities.OrderToDriver</class>
+    <class>com.tsystems.logiweb.persistence.entities.OrderWaypoint</class>
+    <class>com.tsystems.logiweb.persistence.entities.Road</class>
+    <class>com.tsystems.logiweb.persistence.entities.Town</class>
+    <class>com.tsystems.logiweb.persistence.entities.TruckCondition</class>
+    <class>com.tsystems.logiweb.persistence.entities.Truck</class>
+    <class>com.tsystems.logiweb.persistence.entities.TruckState</class>
+    <class>com.tsystems.logiweb.persistence.entities.WaypointType</class>
     <validation-mode>AUTO</validation-mode>
     <properties>
       <property
