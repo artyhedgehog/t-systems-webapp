@@ -41,6 +41,18 @@ public interface GenericCrudDao<E, K extends Serializable> {
     E read(K id);
 
     /**
+     * Find entities similar to given sample.
+     * 
+     * Result list include all and only the entities with same fields values as
+     * non-null fields of the sample
+     * 
+     * @param entitySample
+     *            Sample for searching for.
+     * @return Found entities list.
+     */
+    List<E> findBySample(E entitySample);
+
+    /**
      * Update the stored entity with the entity given.
      * 
      * @param entiry

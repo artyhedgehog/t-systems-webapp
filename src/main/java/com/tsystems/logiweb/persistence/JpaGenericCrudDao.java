@@ -1,8 +1,11 @@
 package com.tsystems.logiweb.persistence;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -43,7 +46,7 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
     /*
      * (non-Javadoc)
      * 
-     * @see com.tsystems.logiweb.persistence.GenericCrudDao#create(java.lang.Object)
+     * @see GenericCrudDao#create(java.lang.Object)
      */
     @Override
     public final void create(final E entity) {
@@ -53,7 +56,7 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
     /*
      * (non-Javadoc)
      * 
-     * @see com.tsystems.logiweb.persistence.GenericCrudDao#read()
+     * @see GenericCrudDao#read()
      */
     @Override
     public final List<E> read() {
@@ -66,7 +69,7 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
     /*
      * (non-Javadoc)
      * 
-     * @see com.tsystems.logiweb.persistence.GenericCrudDao#read(java.io.Serializable)
+     * @see GenericCrudDao#read(java.io.Serializable
      */
     @Override
     public final E read(final K id) {
@@ -76,7 +79,7 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
     /*
      * (non-Javadoc)
      * 
-     * @see com.tsystems.logiweb.persistence.GenericCrudDao#update(java.lang.Object)
+     * @see GenericCrudDao#update(java.lang.Object)
      */
     @Override
     public final E update(final E entiry) {
@@ -86,10 +89,54 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
     /*
      * (non-Javadoc)
      * 
-     * @see com.tsystems.logiweb.persistence.GenericCrudDao#delete(java.lang.Object)
+     * @see GenericCrudDao#delete(java.lang.Object)
      */
     @Override
     public final void delete(final E entity) {
         entityManager.remove(entityManager.merge(entity));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.tsystems.logiweb.persistence.GenericCrudDao#findBySample(java.lang
+     * .Object)
+     */
+    @Override
+    public List<E> findBySample(final E entitySample) {
+        final List<E> all = read();
+        final List<E> found = new ArrayList<>();
+        for (E entity : all) {
+            if (fitSample(entitySample, entity)) {
+                found.add(entity);
+            }
+        }
+        return found;
+    }
+
+    /**
+     * @param entitySample
+     * @param entity
+     * @return
+     */
+    private boolean fitSample(E entitySample, E entity) {
+        for (Field field : entityType.getDeclaredFields()) {
+            if (null != field.getAnnotation(Column.class)) {
+                try {
+                    Object value = field.get(entitySample);
+                    if (null != value && value != field.get(entity)) {
+                        return false;
+                    }
+                } catch (IllegalArgumentException e) {
+                    // TODO log exception
+                    return false;
+                } catch (IllegalAccessException e) {
+                    // TODO log exception
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
