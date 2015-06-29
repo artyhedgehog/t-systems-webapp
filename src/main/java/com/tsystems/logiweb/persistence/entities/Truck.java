@@ -1,8 +1,16 @@
 package com.tsystems.logiweb.persistence.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the trucks database table.
@@ -10,119 +18,204 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "trucks")
-@NamedQuery(name = "Truck.findAll", query = "SELECT t FROM Truck t")
 public class Truck implements Serializable {
+    /**
+     * Utility serialization property.
+     */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
+    /**
+     * 
+     */
     @Column(name = "capacity_tons")
-    private float capacityTons;
+    private Float capacityTons;
 
+    /**
+     * 
+     */
     @Column(name = "drivers_quantity")
-    private byte driversQuantity;
+    private Byte driversQuantity;
 
+    /**
+     * 
+     */
     @Column(name = "reg_number")
     private String regNumber;
 
     // bi-directional many-to-one association to DriverState
+    /**
+     * 
+     */
     @OneToMany(mappedBy = "truck")
     private Set<DriverState> driversStates;
 
     // bi-directional many-to-one association to Order
+    /**
+     * 
+     */
     @OneToMany(mappedBy = "truck")
     private Set<Order> orders;
 
     // bi-directional one-to-one association to TruckState
+    /**
+     * 
+     */
     @OneToOne(mappedBy = "truck")
     private TruckState trucksState;
 
-    public Truck() {
-    }
-
-    public int getId() {
+    /**
+     * @return
+     */
+    public final int getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    /**
+     * @param id
+     */
+    public final Truck setId(final int id) {
         this.id = id;
+        return this;
     }
 
-    public float getCapacityTons() {
+    /**
+     * @return
+     */
+    public final Float getCapacityTons() {
         return this.capacityTons;
     }
 
-    public void setCapacityTons(float capacityTons) {
+    /**
+     * @param capacityTons
+     */
+    public final Truck setCapacityTons(final Float capacityTons) {
         this.capacityTons = capacityTons;
+        return this;
     }
 
-    public byte getDriversQuantity() {
+    /**
+     * @return
+     */
+    public final Byte getDriversQuantity() {
         return this.driversQuantity;
     }
 
-    public void setDriversQuantity(byte driversQuantity) {
+    /**
+     * @param driversQuantity
+     */
+    public final Truck setDriversQuantity(final Byte driversQuantity) {
         this.driversQuantity = driversQuantity;
+        return this;
     }
 
-    public String getRegNumber() {
+    /**
+     * @return
+     */
+    public final String getRegNumber() {
         return this.regNumber;
     }
 
-    public void setRegNumber(String regNumber) {
+    /**
+     * @param regNumber
+     */
+    public final Truck setRegNumber(final String regNumber) {
         this.regNumber = regNumber;
+        return this;
     }
 
-    public Set<DriverState> getDriversStates() {
+    /**
+     * @return
+     */
+    public final Set<DriverState> getDriversStates() {
         return this.driversStates;
     }
 
-    public void setDriversStates(Set<DriverState> driversStates) {
+    /**
+     * @param driversStates
+     */
+    public final Truck setDriversStates(final Set<DriverState> driversStates) {
         this.driversStates = driversStates;
+        return this;
     }
 
-    public DriverState addDriversState(DriverState driversState) {
+    /**
+     * @param driversState
+     * @return
+     */
+    public final DriverState addDriversState(final DriverState driversState) {
         getDriversStates().add(driversState);
         driversState.setTruck(this);
 
         return driversState;
     }
 
-    public DriverState removeDriversState(DriverState driversState) {
+    /**
+     * @param driversState
+     * @return
+     */
+    public final DriverState removeDriversState(final DriverState driversState) {
         getDriversStates().remove(driversState);
         driversState.setTruck(null);
 
         return driversState;
     }
 
-    public Set<Order> getOrders() {
+    /**
+     * @return
+     */
+    public final Set<Order> getOrders() {
         return this.orders;
     }
 
-    public void setOrders(Set<Order> orders) {
+    /**
+     * @param orders
+     */
+    public final Truck setOrders(final Set<Order> orders) {
         this.orders = orders;
+        return this;
     }
 
-    public Order addOrder(Order order) {
+    /**
+     * @param order
+     * @return
+     */
+    public final Order addOrder(final Order order) {
         getOrders().add(order);
         order.setTruck(this);
 
         return order;
     }
 
-    public Order removeOrder(Order order) {
+    /**
+     * @param order
+     * @return
+     */
+    public final Order removeOrder(final Order order) {
         getOrders().remove(order);
         order.setTruck(null);
 
         return order;
     }
 
-    public TruckState getTrucksState() {
+    /**
+     * @return
+     */
+    public final TruckState getTrucksState() {
         return this.trucksState;
     }
 
-    public void setTrucksState(TruckState trucksState) {
+    /**
+     * @param trucksState
+     */
+    public final Truck setTrucksState(final TruckState trucksState) {
         this.trucksState = trucksState;
+        return this;
     }
 }
