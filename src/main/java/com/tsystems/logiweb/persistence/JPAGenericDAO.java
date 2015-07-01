@@ -13,40 +13,41 @@ import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * Implementation of generic DAO for JPA.
- * 
+ *
  * @param <E>
  *            entity class
  * @param <K>
  *            primary key of entity
  */
-public class JpaGenericCrudDao<E, K extends Serializable> implements
-        GenericCrudDao<E, K> {
+public class JPAGenericDAO<E, K extends Serializable>
+        implements GenericDAO<E, K> {
 
     /**
      * Entity manager used by DAO instance.
      */
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     /**
-     * 
+     *
      */
-    private Class<E> entityType;
+    private final Class<E> entityType;
 
     /**
      * @param manager
      *            Entity manager for DAO instance to use.
-     * @param type
+     * @param entityClass
      *            Class of managed entity.
      */
-    public JpaGenericCrudDao(final EntityManager manager, final Class<E> type) {
+    public JPAGenericDAO(final EntityManager manager,
+                          final Class<E> entityClass) {
         entityManager = manager;
-        entityType = type;
+        entityType = entityClass;
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see GenericCrudDao#create(java.lang.Object)
+     *
+     * @see GenericDAO#create(java.lang.Object)
      */
     @Override
     public final void create(final E entity) {
@@ -55,8 +56,8 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see GenericCrudDao#read()
+     *
+     * @see GenericDAO#read()
      */
     @Override
     public final List<E> read() {
@@ -68,8 +69,8 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see GenericCrudDao#read(java.io.Serializable
+     *
+     * @see GenericDAO#read(java.io.Serializable
      */
     @Override
     public final E read(final K id) {
@@ -78,8 +79,8 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see GenericCrudDao#update(java.lang.Object)
+     *
+     * @see GenericDAO#update(java.lang.Object)
      */
     @Override
     public final E update(final E entiry) {
@@ -88,26 +89,31 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see GenericCrudDao#delete(java.lang.Object)
+     *
+     * @see GenericDAO#delete(java.lang.Object)
      */
     @Override
     public final void delete(final E entity) {
         entityManager.remove(entityManager.merge(entity));
     }
 
+    @Override
+    public final void delete(final K id) {
+        entityManager.remove(entityManager.find(entityType, id));
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
-     * com.tsystems.logiweb.persistence.GenericCrudDao#findBySample(java.lang
+     * com.tsystems.logiweb.persistence.GenericDAO#findBySample(java.lang
      * .Object)
      */
     @Override
     public List<E> findBySample(final E entitySample) {
         final List<E> all = read();
         final List<E> found = new ArrayList<>();
-        for (E entity : all) {
+        for (final E entity : all) {
             if (fitSample(entitySample, entity)) {
                 found.add(entity);
             }
@@ -115,23 +121,24 @@ public class JpaGenericCrudDao<E, K extends Serializable> implements
         return found;
     }
 
+
     /**
      * @param entitySample
      * @param entity
      * @return
      */
-    private boolean fitSample(E entitySample, E entity) {
-        for (Field field : entityType.getDeclaredFields()) {
+    private boolean fitSample(final E entitySample, final E entity) {
+        for (final Field field : entityType.getDeclaredFields()) {
             if (null != field.getAnnotation(Column.class)) {
                 try {
-                    Object value = field.get(entitySample);
+                    final Object value = field.get(entitySample);
                     if (null != value && value != field.get(entity)) {
                         return false;
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (final IllegalArgumentException e) {
                     // TODO log exception
                     return false;
-                } catch (IllegalAccessException e) {
+                } catch (final IllegalAccessException e) {
                     // TODO log exception
                     return false;
                 }

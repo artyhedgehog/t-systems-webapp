@@ -5,7 +5,6 @@ import java.util.List;
 import com.tsystems.logiweb.persistence.entities.Truck;
 
 /**
- * @author artyhedgehog
  *
  */
 public interface TrucksService {
@@ -24,23 +23,25 @@ public interface TrucksService {
      * @param registrationNumber
      * @param driversQuantity
      * @param capacityInTons
-     * @param condition
-     * @param town
+     * @param conditionId
+     * @param townId
      * @return
      */
     void addTruck(String registrationNumber, Byte driversQuantity,
-            Float capacityInTons, String condition, String town);
+                  Float capacityInTons, Integer conditionId, Integer townId);
 
     /**
+     * @param truckId TODO
      * @param registrationNumber
      * @param driversQuantity
      * @param capacityInTons
-     * @param condition
-     * @param town
+     * @param conditionId
+     * @param townId
      * @return
      */
-    Truck modifyTruck(String registrationNumber, Integer driversQuantity,
-            Float capacityInTons, String condition, String town);
+    Truck modifyTruck(Integer truckId, String registrationNumber,
+                      Byte driversQuantity, Float capacityInTons,
+                      Integer conditionId, Integer townId);
 
     /**
      * @param truckId

@@ -34,7 +34,7 @@ import com.tsystems.logiweb.persistence.JpaHelper;
  *     </ol>
  * </ul>
  */
-abstract public class JpaBasedService {
+abstract public class JPABasedService {
 
     /**
      * Entity manager instance.
@@ -65,6 +65,16 @@ abstract public class JpaBasedService {
      */
     protected void stopService() {
         rollbackTransaction();
+        closeEntityManager();
+    }
+
+    /**
+     * Clean up service.
+     *
+     * Roll back transaction if it is active and close the entity manager.
+     */
+    protected void cleanupService() {
+        rollbackTransactionIfActive();
         closeEntityManager();
     }
 
@@ -107,6 +117,15 @@ abstract public class JpaBasedService {
      */
     protected void rollbackTransaction() {
         getEntityManager().getTransaction().rollback();
+    }
+
+    /**
+     * Roll back the transaction if it is active.
+     */
+    protected void rollbackTransactionIfActive() {
+        if (getEntityManager().getTransaction().isActive()) {
+            rollbackTransaction();
+        }
     }
 
     /**

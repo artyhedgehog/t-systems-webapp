@@ -5,11 +5,10 @@ import javax.persistence.*;
 
 /**
  * The persistent class for the drivers_state database table.
- * 
+ *
  */
 @Entity
 @Table(name = "drivers_state")
-@NamedQuery(name = "DriverState.findAll", query = "SELECT d FROM DriverState d")
 public class DriverState implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -39,42 +38,42 @@ public class DriverState implements Serializable {
     }
 
     public int getDriverId() {
-	return this.driverId;
+	return driverId;
     }
 
-    public void setDriverId(int driverId) {
+    public void setDriverId(final int driverId) {
 	this.driverId = driverId;
     }
 
     public Driver getDriver() {
-	return this.driver;
+	return driver;
     }
 
-    public void setDriver(Driver driver) {
+    public void setDriver(final Driver driver) {
 	this.driver = driver;
     }
 
     public DriverStatus getDriverStatus() {
-	return this.driverStatus;
+	return driverStatus;
     }
 
-    public void setDriverStatus(DriverStatus driverStatus) {
+    public void setDriverStatus(final DriverStatus driverStatus) {
 	this.driverStatus = driverStatus;
     }
 
     public Town getTown() {
-	return this.town;
+	return town;
     }
 
-    public void setTown(Town town) {
+    public void setTown(final Town town) {
 	this.town = town;
     }
 
     public Truck getTruck() {
-	return this.truck;
+	return truck;
     }
 
-    public void setTruck(Truck truck) {
+    public void setTruck(final Truck truck) {
 	this.truck = truck;
     }
 

@@ -6,69 +6,120 @@ import java.util.Set;
 
 /**
  * The persistent class for the truck_conditions database table.
- * 
+ *
  */
 @Entity
 @Table(name = "truck_conditions")
-@NamedQuery(name = "TruckCondition.findAll", query = "SELECT t FROM TruckCondition t")
 public class TruckCondition implements Serializable {
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
 
+    /**
+     *
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     *
+     */
     private String description;
 
+    /**
+     *
+     */
     private String name;
 
     // bi-directional many-to-one association to TruckState
+    /**
+     *
+     */
     @OneToMany(mappedBy = "truckCondition")
     private Set<TruckState> trucksStates;
 
-    public TruckCondition() {
-    }
-
+    /**
+     * @return
+     */
     public int getId() {
-        return this.id;
+        return id;
     }
 
-    public void setId(int id) {
+    /**
+     * @param id
+     * @return
+     */
+    public TruckCondition setId(final int id) {
         this.id = id;
+        return this;
     }
 
+    /**
+     * @return
+     */
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
-    public void setDescription(String description) {
+    /**
+     * @param description
+     * @return
+     */
+    public TruckCondition setDescription(final String description) {
         this.description = description;
+        return this;
     }
 
+    /**
+     * @return
+     */
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public void setName(String name) {
+    /**
+     * @param name
+     * @return
+     */
+    public TruckCondition setName(final String name) {
         this.name = name;
+        return this;
     }
 
+    /**
+     * @return
+     */
     public Set<TruckState> getTrucksStates() {
-        return this.trucksStates;
+        return trucksStates;
     }
 
-    public void setTrucksStates(Set<TruckState> trucksStates) {
+    /**
+     * @param trucksStates
+     * @return
+     */
+    public TruckCondition setTrucksStates(final Set<TruckState> trucksStates) {
         this.trucksStates = trucksStates;
+        return this;
     }
 
-    public TruckState addTrucksState(TruckState trucksState) {
+    /**
+     * @param trucksState
+     * @return
+     */
+    public TruckState addTrucksState(final TruckState trucksState) {
         getTrucksStates().add(trucksState);
         trucksState.setTruckCondition(this);
 
         return trucksState;
     }
 
-    public TruckState removeTrucksState(TruckState trucksState) {
+    /**
+     * @param trucksState
+     * @return
+     */
+    public TruckState removeTrucksState(final TruckState trucksState) {
         getTrucksStates().remove(trucksState);
         trucksState.setTruckCondition(null);
 

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 /**
  * The persistent class for the trucks database table.
- * 
+ *
  */
 @Entity
 @Table(name = "trucks")
@@ -25,47 +25,47 @@ public class Truck implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     *
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     /**
-     * 
+     *
      */
     @Column(name = "capacity_tons")
     private Float capacityTons;
 
     /**
-     * 
+     *
      */
     @Column(name = "drivers_quantity")
     private Byte driversQuantity;
 
     /**
-     * 
+     *
      */
     @Column(name = "reg_number")
     private String regNumber;
 
     // bi-directional many-to-one association to DriverState
     /**
-     * 
+     *
      */
     @OneToMany(mappedBy = "truck")
     private Set<DriverState> driversStates;
 
     // bi-directional many-to-one association to Order
     /**
-     * 
+     *
      */
     @OneToMany(mappedBy = "truck")
     private Set<Order> orders;
 
     // bi-directional one-to-one association to TruckState
     /**
-     * 
+     *
      */
     @OneToOne(mappedBy = "truck")
     private TruckState trucksState;
@@ -74,7 +74,7 @@ public class Truck implements Serializable {
      * @return
      */
     public final int getId() {
-        return this.id;
+        return id;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Truck implements Serializable {
      * @return
      */
     public final Float getCapacityTons() {
-        return this.capacityTons;
+        return capacityTons;
     }
 
     /**
@@ -104,7 +104,7 @@ public class Truck implements Serializable {
      * @return
      */
     public final Byte getDriversQuantity() {
-        return this.driversQuantity;
+        return driversQuantity;
     }
 
     /**
@@ -119,7 +119,7 @@ public class Truck implements Serializable {
      * @return
      */
     public final String getRegNumber() {
-        return this.regNumber;
+        return regNumber;
     }
 
     /**
@@ -134,7 +134,7 @@ public class Truck implements Serializable {
      * @return
      */
     public final Set<DriverState> getDriversStates() {
-        return this.driversStates;
+        return driversStates;
     }
 
     /**
@@ -171,7 +171,7 @@ public class Truck implements Serializable {
      * @return
      */
     public final Set<Order> getOrders() {
-        return this.orders;
+        return orders;
     }
 
     /**
@@ -207,15 +207,15 @@ public class Truck implements Serializable {
     /**
      * @return
      */
-    public final TruckState getTrucksState() {
-        return this.trucksState;
+    public final TruckState getState() {
+        return trucksState;
     }
 
     /**
-     * @param trucksState
+     * @param state
      */
-    public final Truck setTrucksState(final TruckState trucksState) {
-        this.trucksState = trucksState;
+    public final Truck setState(final TruckState state) {
+        trucksState = state;
         return this;
     }
 }
