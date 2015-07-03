@@ -1,39 +1,18 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>Logiweb Web Application</display-name>
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  
-  <filter>
-  	<filter-name>GreetingsFilter</filter-name>
-  	<display-name>GreetingsFilter</display-name>
-  	<description></description>
-  	<filter-class>com.tsystems.GreetingsFilter</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>GreetingsFilter</filter-name>
-  	<url-pattern>/greetings</url-pattern>
-  </filter-mapping>
-  
   <servlet>
-    <servlet-name>HelloServlet</servlet-name>
-    <display-name>HelloServlet</display-name>
-    <description></description>
-    <servlet-class>com.tsystems.logiweb.servlets.HelloServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>GreetingsServlet</servlet-name>
-    <display-name>GreetingsServlet</display-name>
-    <servlet-class>com.tsystems.GreetingsServlet</servlet-class>
+  	<description>Trucks managing servlet</description>
+  	<display-name>TrucksServlet</display-name>
+  	<servlet-name>TrucksServlet</servlet-name>
+  	<servlet-class>com.tsystems.logiweb.servlets.TrucksServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>HelloServlet</servlet-name>
-    <url-pattern>/HelloServlet</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GreetingsServlet</servlet-name>
-    <url-pattern>/greetings</url-pattern>
+  	<servlet-name>TrucksServlet</servlet-name>
+  	<url-pattern>/trucks</url-pattern>
   </servlet-mapping>
 </web-app>
