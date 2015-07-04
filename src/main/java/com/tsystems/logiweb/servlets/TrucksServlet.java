@@ -3,6 +3,7 @@ package com.tsystems.logiweb.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class TrucksServlet
  */
 public class TrucksServlet extends HttpServlet {
+    private static final String APP_TITLE = "Logiweb";
+    private static final String VIEWS_PATH = "/WEB-INF/jsp/";
     private static final String PAGE_TITLE = "Trucks";
     private static final long serialVersionUID = 1L;
     private final List<String> js = new ArrayList<>();
@@ -53,7 +56,7 @@ public class TrucksServlet extends HttpServlet {
                                 final HttpServletResponse response)
             throws ServletException, IOException {
         final RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/WEB-INF/jsp/layout.jsp");
+                .getRequestDispatcher(VIEWS_PATH + "layout.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -62,9 +65,25 @@ public class TrucksServlet extends HttpServlet {
      * @param request
      */
     protected void setupRequestAttributes(final HttpServletRequest request) {
+        request.setAttribute("appTitle", APP_TITLE);
         request.setAttribute("pageTitle", PAGE_TITLE);
+
         request.setAttribute("scripts", js);
         request.setAttribute("stylesheets", css);
+
+        setView(request, "headerView", "common/header.jsp");
+        setView(request, "footerView", "common/footer.jsp");
+    }
+
+    /**
+     * @param request
+     * @param attributeName
+     * @param viewRelativePath
+     */
+    protected void setView(final HttpServletRequest request,
+                             final String attributeName,
+                             final String viewRelativePath) {
+        request.setAttribute(attributeName, VIEWS_PATH + viewRelativePath);
     }
 
     protected void addJS(final String url) {
