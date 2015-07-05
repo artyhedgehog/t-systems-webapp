@@ -56,7 +56,7 @@
     </div>
     
     <c:if test="${not empty footerView}">
-      <footer>
+      <footer class="sticky-footer">
         <jsp:include page="${footerView}" flush="true"/>
       </footer>
     </c:if>
