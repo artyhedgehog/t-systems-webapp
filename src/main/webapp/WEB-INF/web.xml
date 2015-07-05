@@ -8,7 +8,7 @@
   	<description>Trucks managing servlet</description>
   	<display-name>TrucksServlet</display-name>
   	<servlet-name>TrucksServlet</servlet-name>
-  	<servlet-class>com.tsystems.logiweb.servlets.TrucksServlet</servlet-class>
+  	<servlet-class>com.tsystems.logiweb.ui.TrucksServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>

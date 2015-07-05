@@ -1,4 +1,4 @@
-package com.tsystems.logiweb.servlets;
+package com.tsystems.logiweb.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TrucksServlet extends HttpServlet {
     private static final String APP_TITLE = "Logiweb";
-    private static final String VIEWS_PATH = "/WEB-INF/jsp/";
+    private static final String VIEWS_PATH = "/WEB-INF/views/";
+    private static final String LAYOUTS_PATH = "/WEB-INF/layouts/";
+    private static final String DEFAULT_LAYOUT = "default.jsp";
+
     private static final String PAGE_TITLE = "Trucks";
     private static final long serialVersionUID = 1L;
     private final List<String> js = new ArrayList<>();
@@ -52,10 +55,10 @@ public class TrucksServlet extends HttpServlet {
                          final HttpServletResponse response)
             throws ServletException, IOException {
         setupRequestAttributes(request);
-        renderView("layout.jsp", request, response);
+        renderPage(request, response);
     }
 
-    protected void renderView(final String view,
+    protected void renderPage(final String layout,
                               final HttpServletRequest request,
                               final HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,8 +67,14 @@ public class TrucksServlet extends HttpServlet {
         final RequestDispatcher dispatcher;
 
         context = request.getServletContext();
-        dispatcher = context.getRequestDispatcher(VIEWS_PATH + view);
+        dispatcher = context.getRequestDispatcher(LAYOUTS_PATH + layout);
         dispatcher.forward(request, response);
+    }
+
+    protected void renderPage(final HttpServletRequest request,
+                              final HttpServletResponse response)
+            throws ServletException, IOException {
+        renderPage(DEFAULT_LAYOUT, request, response);
     }
 
     /**
