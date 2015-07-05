@@ -57,7 +57,7 @@ public abstract class BasePageServlet extends HttpServlet {
                           final HttpServletResponse response)
             throws ServletException, IOException {
         setupRequestAttributes(request);
-        final String view = processGetRequestForAView(request);
+        final String view = processPostRequestForAView(request);
         renderPage(view, request, response);
     }
 
