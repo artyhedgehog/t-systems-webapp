@@ -21,6 +21,7 @@ public abstract class BasePageServlet extends HttpServlet {
     public static final String VIEWS_PATH = "/WEB-INF/views/";
     public static final String LAYOUTS_PATH = "/WEB-INF/layouts/";
     public static final String DEFAULT_LAYOUT = "default.jsp";
+    public static final String ERROR_VIEW = "common/error.jsp";
 
 
     /**
@@ -50,6 +51,42 @@ public abstract class BasePageServlet extends HttpServlet {
     protected abstract String processGetRequestForAView(
             HttpServletRequest request);
 
+    @Override
+    protected void service(final HttpServletRequest request,
+                           final HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            super.service(request, response);
+        } catch (final RuntimeException fault) {
+            throw fault;
+        } catch (final Throwable exception) {
+            handleError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        exception, request, response);
+        }
+    }
+
+    /**
+     * @param code
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void handleError(final int code, final Throwable exception,
+                               final HttpServletRequest request,
+                               final HttpServletResponse response)
+            throws ServletException, IOException {
+        // TODO: logging
+
+        request.setAttribute("exception", exception);
+        request.setAttribute("errorCode", code);
+        request.setAttribute("pageTitle", String.format("Error %d", code));
+
+        response.setStatus(code);
+
+        renderPage(ERROR_VIEW, request, response);
+    }
+
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
@@ -58,9 +95,10 @@ public abstract class BasePageServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest request,
                           final HttpServletResponse response)
             throws ServletException, IOException {
-        setupRequestAttributes(request);
-        final String view = processPostRequestForAView(request);
-        renderPage(view, request, response);
+            setupRequestAttributes(request);
+            final String view = processPostRequestForAView(request);
+            renderPage(view, request, response);
+
     }
 
     /**

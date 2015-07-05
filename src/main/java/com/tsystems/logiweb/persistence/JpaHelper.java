@@ -14,7 +14,7 @@ public final class JpaHelper {
 
     /**
      * Entity manager factory.
-     * 
+     *
      * Factory is only created once for application.
      */
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;
@@ -35,5 +35,9 @@ public final class JpaHelper {
      */
     public static EntityManagerFactory getEntityManagerFactory() {
         return ENTITY_MANAGER_FACTORY;
+    }
+
+    public static void main(final String[] args) {
+        JpaHelper.getEntityManagerFactory();
     }
 }
