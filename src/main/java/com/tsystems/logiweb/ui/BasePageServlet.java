@@ -21,11 +21,6 @@ public abstract class BasePageServlet extends HttpServlet {
     public static final String DEFAULT_LAYOUT = "default.jsp";
 
 
-    public BasePageServlet() {
-        super();
-    }
-
-
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
@@ -35,12 +30,8 @@ public abstract class BasePageServlet extends HttpServlet {
                          final HttpServletResponse response)
             throws ServletException, IOException {
         setupRequestAttributes(request);
-        final String layout = processGetRequestForLayout(request);
-        if (null == layout) {
-            renderPage(request, response);
-        } else {
-            renderPage(layout, request, response);
-        }
+        final String view = processGetRequestForAView(request);
+        renderPage(view, request, response);
     }
 
     /**
@@ -54,7 +45,7 @@ public abstract class BasePageServlet extends HttpServlet {
      *
      * @see BasePageServlet.processPostRequestForLayout
      */
-    protected abstract String processGetRequestForLayout(
+    protected abstract String processGetRequestForAView(
             HttpServletRequest request);
 
     /**
@@ -66,13 +57,8 @@ public abstract class BasePageServlet extends HttpServlet {
                           final HttpServletResponse response)
             throws ServletException, IOException {
         setupRequestAttributes(request);
-        final String view = processPostRequestForLayout(request);
-        setView(request, "pageView", "trucks/main.jsp");
-        if (null == view) {
-            renderPage(request, response);
-        } else {
-            renderPage(view, request, response);
-        }
+        final String view = processGetRequestForAView(request);
+        renderPage(view, request, response);
     }
 
     /**
@@ -86,7 +72,7 @@ public abstract class BasePageServlet extends HttpServlet {
      *
      * @see BasePageServlet.processGetRequestForLayout
      */
-    protected abstract String processPostRequestForLayout(
+    protected abstract String processPostRequestForAView(
             HttpServletRequest request);
 
     /**
@@ -96,6 +82,7 @@ public abstract class BasePageServlet extends HttpServlet {
      */
     protected void setupRequestAttributes(final HttpServletRequest request) {
         request.setAttribute("appTitle", APP_TITLE);
+        request.setAttribute("pageTitle", getPageTitle());
 
         request.setAttribute("scripts", getJavaScriptSourceURLs());
         request.setAttribute("stylesheets", getCSSStylesheetURLs());
@@ -104,16 +91,32 @@ public abstract class BasePageServlet extends HttpServlet {
         setView(request, "footerView", getFooterView());
     }
 
+    /**
+     * Get title for the concrete page.
+     * @return Human-readable title to show in browser title and on the page.
+     */
+    abstract protected String getPageTitle();
 
+    /**
+     * Get footer view.
+     * @return View file name relative to {@link BasePageServlet.VIEWS_PATH}.
+     */
     protected String getFooterView() {
         return "common/footer.jsp";
     }
 
-
+    /**
+     * Get header view.
+     * @return View file name relative to {@link BasePageServlet.VIEWS_PATH}.
+     */
     protected String getHeaderView() {
         return "common/header.jsp";
     }
 
+    /**
+     * Get CSS stylesheets for the web page.
+     * @return List of stylesheets URL's.
+     */
     protected List<String> getCSSStylesheetURLs() {
         final List<String> css = new ArrayList<>();
 
@@ -127,6 +130,10 @@ public abstract class BasePageServlet extends HttpServlet {
         return css;
     }
 
+    /**
+     * Get JavaScript source files for the web page.
+     * @return List of scripts URL's.
+     */
     protected List<String> getJavaScriptSourceURLs() {
         final List<String> js = new ArrayList<>();
 
@@ -140,30 +147,44 @@ public abstract class BasePageServlet extends HttpServlet {
 
     /**
      * @param request
-     * @param attributeName
-     * @param viewRelativePath
+     * @param getLayout(attributeName)
+     * @param getLayout(viewRelativePath)
      */
     protected void setView(final HttpServletRequest request,
             final String attributeName, final String viewRelativePath) {
         request.setAttribute(attributeName, VIEWS_PATH + viewRelativePath);
     }
 
-    protected void renderPage(final String layout,
+    /**
+     * Render given view in the page layout.
+     * @param pageView
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void renderPage(final String pageView,
                               final HttpServletRequest request,
                               final HttpServletResponse response)
             throws ServletException, IOException {
         final ServletContext context;
         final RequestDispatcher dispatcher;
 
+        setView(request, "pageView", pageView);
+
         context = request.getServletContext();
-        dispatcher = context.getRequestDispatcher(LAYOUTS_PATH + layout);
+        dispatcher = context.getRequestDispatcher(LAYOUTS_PATH + getLayout());
         dispatcher.forward(request, response);
     }
 
 
-    protected void renderPage(final HttpServletRequest request,
-                              final HttpServletResponse response)
-            throws ServletException, IOException {
-        renderPage(DEFAULT_LAYOUT, request, response);
+    /**
+     * Get layout suitable for the page.
+     * @param layout Layout name relative to
+     *               {@link BasePageServlet.LAYOUTS_PATH}.
+     * @return
+     */
+    protected String getLayout() {
+        return DEFAULT_LAYOUT;
     }
 }

@@ -1,36 +1,31 @@
 package com.tsystems.logiweb.ui;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Servlet for trucks managing.
  */
 public class TrucksPageServlet extends BasePageServlet {
-    static final String PAGE_TITLE = "Trucks";
+    public static final String PAGE_VIEW = "trucks/main.jsp";
+    public static final String PAGE_TITLE = "Trucks";
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TrucksPageServlet() {
-        super();
+
+    @Override
+    protected String processGetRequestForAView(
+            final HttpServletRequest request) {
+        return PAGE_VIEW;
     }
 
     @Override
-    protected void setupRequestAttributes(final HttpServletRequest request) {
-        super.setupRequestAttributes(request);
-        request.setAttribute("pageTitle", PAGE_TITLE);
+    protected String processPostRequestForAView(
+            final HttpServletRequest request) {
+        return PAGE_VIEW;
     }
 
     @Override
-    protected String processGetRequestForLayout(final HttpServletRequest request) {
-        return null;
-    }
-
-    @Override
-    protected String processPostRequestForLayout(final HttpServletRequest request) {
-        return null;
+    protected String getPageTitle() {
+        return PAGE_TITLE;
     }
 
 }
