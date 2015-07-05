@@ -43,7 +43,7 @@ public class TruckState implements Serializable {
      */
     @ManyToOne
     @JoinColumn(name = "truck_condition_id")
-    private TruckCondition truckCondition;
+    private TruckCondition condition;
 
     /**
      * @return
@@ -96,16 +96,16 @@ public class TruckState implements Serializable {
     /**
      * @return
      */
-    public TruckCondition getTruckCondition() {
-	return truckCondition;
+    public TruckCondition getCondition() {
+	return condition;
     }
 
     /**
-     * @param truckCondition
+     * @param condition
      * @return
      */
-    public TruckState setTruckCondition(final TruckCondition truckCondition) {
-	this.truckCondition = truckCondition;
+    public TruckState setCondition(final TruckCondition condition) {
+	this.condition = condition;
 	return this;
     }
 }

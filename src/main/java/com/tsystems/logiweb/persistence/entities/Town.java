@@ -1,12 +1,14 @@
 package com.tsystems.logiweb.persistence.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Set;
 
 /**
  * The persistent class for the towns database table.
- * 
+ *
  */
 @Entity
 @Table(name = "towns")
@@ -44,37 +46,37 @@ public class Town implements Serializable {
     }
 
     public int getId() {
-	return this.id;
+	return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
 	this.id = id;
     }
 
     public String getName() {
-	return this.name;
+	return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
 	this.name = name;
     }
 
     public Set<DriverState> getDriversStates() {
-	return this.driversStates;
+	return driversStates;
     }
 
-    public void setDriversStates(Set<DriverState> driversStates) {
+    public void setDriversStates(final Set<DriverState> driversStates) {
 	this.driversStates = driversStates;
     }
 
-    public DriverState addDriversState(DriverState driversState) {
+    public DriverState addDriversState(final DriverState driversState) {
 	getDriversStates().add(driversState);
 	driversState.setTown(this);
 
 	return driversState;
     }
 
-    public DriverState removeDriversState(DriverState driversState) {
+    public DriverState removeDriversState(final DriverState driversState) {
 	getDriversStates().remove(driversState);
 	driversState.setTown(null);
 
@@ -82,21 +84,21 @@ public class Town implements Serializable {
     }
 
     public Set<OrderWaypoint> getOrdersWaypoints() {
-	return this.ordersWaypoints;
+	return ordersWaypoints;
     }
 
-    public void setOrdersWaypoints(Set<OrderWaypoint> ordersWaypoints) {
+    public void setOrdersWaypoints(final Set<OrderWaypoint> ordersWaypoints) {
 	this.ordersWaypoints = ordersWaypoints;
     }
 
-    public OrderWaypoint addOrdersWaypoint(OrderWaypoint ordersWaypoint) {
+    public OrderWaypoint addOrdersWaypoint(final OrderWaypoint ordersWaypoint) {
 	getOrdersWaypoints().add(ordersWaypoint);
 	ordersWaypoint.setTown(this);
 
 	return ordersWaypoint;
     }
 
-    public OrderWaypoint removeOrdersWaypoint(OrderWaypoint ordersWaypoint) {
+    public OrderWaypoint removeOrdersWaypoint(final OrderWaypoint ordersWaypoint) {
 	getOrdersWaypoints().remove(ordersWaypoint);
 	ordersWaypoint.setTown(null);
 
@@ -104,21 +106,21 @@ public class Town implements Serializable {
     }
 
     public Set<Road> getRoads1() {
-	return this.roads1;
+	return roads1;
     }
 
-    public void setRoads1(Set<Road> roads1) {
+    public void setRoads1(final Set<Road> roads1) {
 	this.roads1 = roads1;
     }
 
-    public Road addRoads1(Road roads1) {
+    public Road addRoads1(final Road roads1) {
 	getRoads1().add(roads1);
 	roads1.setTown1(this);
 
 	return roads1;
     }
 
-    public Road removeRoads1(Road roads1) {
+    public Road removeRoads1(final Road roads1) {
 	getRoads1().remove(roads1);
 	roads1.setTown1(null);
 
@@ -126,21 +128,21 @@ public class Town implements Serializable {
     }
 
     public Set<Road> getRoads2() {
-	return this.roads2;
+	return roads2;
     }
 
-    public void setRoads2(Set<Road> roads2) {
+    public void setRoads2(final Set<Road> roads2) {
 	this.roads2 = roads2;
     }
 
-    public Road addRoads2(Road roads2) {
+    public Road addRoads2(final Road roads2) {
 	getRoads2().add(roads2);
 	roads2.setTown2(this);
 
 	return roads2;
     }
 
-    public Road removeRoads2(Road roads2) {
+    public Road removeRoads2(final Road roads2) {
 	getRoads2().remove(roads2);
 	roads2.setTown2(null);
 
@@ -148,24 +150,29 @@ public class Town implements Serializable {
     }
 
     public Set<TruckState> getTrucksStates() {
-	return this.trucksStates;
+	return trucksStates;
     }
 
-    public void setTrucksStates(Set<TruckState> trucksStates) {
+    public void setTrucksStates(final Set<TruckState> trucksStates) {
 	this.trucksStates = trucksStates;
     }
 
-    public TruckState addTrucksState(TruckState trucksState) {
+    public TruckState addTrucksState(final TruckState trucksState) {
 	getTrucksStates().add(trucksState);
 	trucksState.setTown(this);
 
 	return trucksState;
     }
 
-    public TruckState removeTrucksState(TruckState trucksState) {
+    public TruckState removeTrucksState(final TruckState trucksState) {
 	getTrucksStates().remove(trucksState);
 	trucksState.setTown(null);
 
 	return trucksState;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }

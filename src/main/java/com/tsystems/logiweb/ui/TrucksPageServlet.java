@@ -1,6 +1,11 @@
 package com.tsystems.logiweb.ui;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
+import com.tsystems.logiweb.persistence.entities.Truck;
+import com.tsystems.logiweb.service.JPABasedTrucksService;
 
 /**
  * Servlet for trucks managing.
@@ -14,13 +19,24 @@ public class TrucksPageServlet extends BasePageServlet {
     @Override
     protected String processGetRequestForAView(
             final HttpServletRequest request) {
+        return listTrucks(request);
+    }
+
+    /**
+     * @param request
+     * @return
+     */
+    private String listTrucks(final HttpServletRequest request) {
+        final List<Truck> trucks = new JPABasedTrucksService().getTrucksList();
+        request.setAttribute("trucks", trucks);
         return PAGE_VIEW;
     }
 
     @Override
     protected String processPostRequestForAView(
             final HttpServletRequest request) {
-        return PAGE_VIEW;
+
+        return listTrucks(request);
     }
 
     @Override

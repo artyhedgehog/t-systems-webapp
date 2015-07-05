@@ -71,7 +71,7 @@ public class JPABasedTrucksService extends JPABasedService
             buildTruckDAO(manager).create(truck);
 
             final TruckState state = new TruckState().setTruck(truck)
-                    .setTruckCondition(condition).setTown(town);
+                    .setCondition(condition).setTown(town);
             buildTruckStateDAO(manager).create(state);
 
             commitTransaction();
@@ -107,7 +107,7 @@ public class JPABasedTrucksService extends JPABasedService
                     .read(conditionId);
             final TruckState state = truck.getState();
             final Town town = buildTownDAO(manager).read(townId);
-            state.setTruckCondition(condition).setTown(town);
+            state.setCondition(condition).setTown(town);
 
             commitTransaction();
             return truck;

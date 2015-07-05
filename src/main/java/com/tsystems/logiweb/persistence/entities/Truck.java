@@ -68,7 +68,7 @@ public class Truck implements Serializable {
      *
      */
     @OneToOne(mappedBy = "truck")
-    private TruckState trucksState;
+    private TruckState state;
 
     /**
      * @return
@@ -149,7 +149,7 @@ public class Truck implements Serializable {
      * @param driversState
      * @return
      */
-    public final DriverState addDriversState(final DriverState driversState) {
+    public final DriverState addDriverState(final DriverState driversState) {
         getDriversStates().add(driversState);
         driversState.setTruck(this);
 
@@ -160,7 +160,7 @@ public class Truck implements Serializable {
      * @param driversState
      * @return
      */
-    public final DriverState removeDriversState(final DriverState driversState) {
+    public final DriverState removeDriverState(final DriverState driversState) {
         getDriversStates().remove(driversState);
         driversState.setTruck(null);
 
@@ -208,14 +208,14 @@ public class Truck implements Serializable {
      * @return
      */
     public final TruckState getState() {
-        return trucksState;
+        return state;
     }
 
     /**
      * @param state
      */
     public final Truck setState(final TruckState state) {
-        trucksState = state;
+        this.state = state;
         return this;
     }
 }

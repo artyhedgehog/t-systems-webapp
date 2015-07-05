@@ -45,6 +45,7 @@
           <aside><jsp:include page="${sidebarView}" flush="true"/></aside>
         </c:if>
         
+        <h1><c:out value="${pageTitle}" default="Page title is not set"/></h1>
         <%-- Main page content --%>
         <c:choose>
           <c:when test="${not empty pageView}">

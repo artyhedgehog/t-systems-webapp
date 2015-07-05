@@ -1,7 +1,9 @@
 package com.tsystems.logiweb.persistence.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
 import java.util.Set;
 
 /**
@@ -37,7 +39,7 @@ public class TruckCondition implements Serializable {
     /**
      *
      */
-    @OneToMany(mappedBy = "truckCondition")
+    @OneToMany(mappedBy = "condition")
     private Set<TruckState> trucksStates;
 
     /**
@@ -110,7 +112,7 @@ public class TruckCondition implements Serializable {
      */
     public TruckState addTrucksState(final TruckState trucksState) {
         getTrucksStates().add(trucksState);
-        trucksState.setTruckCondition(this);
+        trucksState.setCondition(this);
 
         return trucksState;
     }
@@ -121,8 +123,13 @@ public class TruckCondition implements Serializable {
      */
     public TruckState removeTrucksState(final TruckState trucksState) {
         getTrucksStates().remove(trucksState);
-        trucksState.setTruckCondition(null);
+        trucksState.setCondition(null);
 
         return trucksState;
+    }
+
+    @Override
+    public String toString() {
+        return getDescription();
     }
 }
