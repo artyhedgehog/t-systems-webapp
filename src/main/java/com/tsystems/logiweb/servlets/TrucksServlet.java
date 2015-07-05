@@ -3,7 +3,6 @@ package com.tsystems.logiweb.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class TrucksServlet
+ * Servlet for trucks managing.
  */
 public class TrucksServlet extends HttpServlet {
     private static final String APP_TITLE = "Logiweb";
@@ -32,12 +31,14 @@ public class TrucksServlet extends HttpServlet {
 
     protected void initJS() {
         addJS("https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js");
-        addJS("/webapp/ext/bootstrap/js/bootstrap.js");
+        addJS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js");
     }
 
     protected void initCSS() {
-        addCSS("/webapp/ext/bootstrap/css/bootstrap.css");
-        addCSS("/webapp/ext/bootstrap/css/bootstrap-responsive.css");
+        addCSS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");
+        addCSS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css");
+
+        addCSS("/css/sticky-footer.css");
     }
 
     /**
