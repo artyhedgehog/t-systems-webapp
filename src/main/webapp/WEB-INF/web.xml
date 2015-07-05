@@ -6,13 +6,13 @@
 
   <servlet>
   	<description>Trucks managing servlet</description>
-  	<display-name>TrucksServlet</display-name>
-  	<servlet-name>TrucksServlet</servlet-name>
-  	<servlet-class>com.tsystems.logiweb.ui.TrucksServlet</servlet-class>
+  	<display-name>TrucksPage</display-name>
+  	<servlet-name>TrucksPage</servlet-name>
+  	<servlet-class>com.tsystems.logiweb.ui.TrucksPageServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-  	<servlet-name>TrucksServlet</servlet-name>
+  	<servlet-name>TrucksPage</servlet-name>
   	<url-pattern>/trucks</url-pattern>
   </servlet-mapping>
 </web-app>
