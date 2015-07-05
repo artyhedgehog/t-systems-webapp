@@ -1,7 +1,7 @@
 package com.tsystems.logiweb.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -118,16 +118,10 @@ public abstract class BasePageServlet extends HttpServlet {
      * @return List of stylesheets URL's.
      */
     protected List<String> getCSSStylesheetURLs() {
-        final List<String> css = new ArrayList<>();
-
-        css.add("https://maxcdn.bootstrapcdn.com"
-                + "/bootstrap/3.3.5/css/bootstrap.min.css");
-        css.add("https://maxcdn.bootstrapcdn.com"
-                + "/bootstrap/3.3.5/css/bootstrap-theme.min.css");
-
-        css.add("/css/sticky-footer.css");
-
-        return css;
+        final String[] css = {"/lib/bootstrap-3.3.5-dist/css/bootstrap.css",
+                              "/lib/bootstrap-3.3.5-dist/css/bootstrap-theme.css",
+                              "/css/sticky-footer.css"};
+        return Arrays.asList(css);
     }
 
     /**
@@ -135,14 +129,9 @@ public abstract class BasePageServlet extends HttpServlet {
      * @return List of scripts URL's.
      */
     protected List<String> getJavaScriptSourceURLs() {
-        final List<String> js = new ArrayList<>();
-
-        js.add("https://ajax.googleapis.com"
-               + "/ajax/libs/jquery/2.1.4/jquery.min.js");
-        js.add("https://maxcdn.bootstrapcdn.com"
-               + "/bootstrap/3.3.5/js/bootstrap.min.js");
-
-        return js;
+        final String[] scripts = {"/lib/jquery-1.11.3.js",
+                                  "/lib/bootstrap-3.3.5-dist/js/bootstrap.js"};
+        return Arrays.asList(scripts);
     }
 
     /**

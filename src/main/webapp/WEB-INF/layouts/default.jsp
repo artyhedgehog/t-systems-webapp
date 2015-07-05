@@ -63,7 +63,7 @@
     
     <%-- JavaScript initializing --%>
     <c:forEach var="url" items="${scripts}">
-      <script type="text/javascript" src="${url}"></script>
+      <script type="text/javascript" src="<c:url value="${url}"/>"></script>
     </c:forEach>
   </body>
 </html>
