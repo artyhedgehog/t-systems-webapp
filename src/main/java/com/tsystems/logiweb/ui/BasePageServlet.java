@@ -3,6 +3,8 @@ package com.tsystems.logiweb.ui;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -84,11 +86,19 @@ public abstract class BasePageServlet extends HttpServlet {
         request.setAttribute("appTitle", APP_TITLE);
         request.setAttribute("pageTitle", getPageTitle());
 
+        request.setAttribute("menuMap", generateMenu());
+
         request.setAttribute("scripts", getJavaScriptSourceURLs());
         request.setAttribute("stylesheets", getCSSStylesheetURLs());
 
         setView(request, "headerView", getHeaderView());
         setView(request, "footerView", getFooterView());
+    }
+
+    protected Map<String, String> generateMenu() {
+        final Map<String, String> menu = new TreeMap<>();
+        menu.put("Trucks", "/trucks");
+        return menu;
     }
 
     /**
