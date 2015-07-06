@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 public abstract class BasePageServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +25,7 @@ public abstract class BasePageServlet extends HttpServlet {
     public static final String DEFAULT_LAYOUT = "default.jsp";
     public static final String ERROR_VIEW = "common/error.jsp";
 
+    protected Logger log = Logger.getLogger(getClass());
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -76,7 +79,7 @@ public abstract class BasePageServlet extends HttpServlet {
                                final HttpServletRequest request,
                                final HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO: logging
+        log.error("Exception caught", exception);
 
         request.setAttribute("exception", exception);
         request.setAttribute("errorCode", code);

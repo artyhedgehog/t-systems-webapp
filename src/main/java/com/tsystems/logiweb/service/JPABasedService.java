@@ -3,6 +3,7 @@ package com.tsystems.logiweb.service;
 import javax.persistence.EntityManager;
 
 import com.tsystems.logiweb.persistence.JpaHelper;
+import com.tsystems.logiweb.persistence.PersistenceContext;
 
 /**
  * Basic framework for a service, working with persistence through JPA.
@@ -83,8 +84,9 @@ abstract public class JPABasedService {
      * Initialize entity manager.
      */
     protected void initEntityManager() {
-        entityManager = JpaHelper.getEntityManagerFactory()
-                                 .createEntityManager();
+        entityManager = PersistenceContext.getContext()
+                                          .getEntityManagerFactory()
+                                          .createEntityManager();
     }
 
     /**

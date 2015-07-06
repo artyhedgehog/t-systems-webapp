@@ -39,7 +39,7 @@ public class JPAGenericDAO<E, K extends Serializable>
      *            Class of managed entity.
      */
     public JPAGenericDAO(final EntityManager manager,
-                          final Class<E> entityClass) {
+                         final Class<E> entityClass) {
         entityManager = manager;
         entityType = entityClass;
     }
