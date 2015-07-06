@@ -4,6 +4,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class PersistenceContext {
+    private static final String PERSISTENCE_UNIT = "logiweb";
+
     private static PersistenceContext instance = new PersistenceContext();
 
     private EntityManagerFactory entityManagerFactory;
@@ -21,7 +23,6 @@ public class PersistenceContext {
     }
 
     public String getPersistenceUnitName() {
-        // TODO Auto-generated method stub
-        return null;
+        return PERSISTENCE_UNIT;
     }
 }

@@ -60,9 +60,7 @@ public abstract class BasePageServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             super.service(request, response);
-        } catch (final RuntimeException fault) {
-            throw fault;
-        } catch (final Throwable exception) {
+        } catch (final Exception exception) {
             handleError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                         exception, request, response);
         }
