@@ -13,7 +13,7 @@
       <th>Current town</th>
     </tr>
   </thead>
-  <tbody><c:forEach var="truck" items="trucks">
+  <tbody><c:forEach var="truck" items="${trucks}">
     <tr id="truck<c:out value="${truck.id}"/>">
       <td><c:out value="${truck.regNumber}" default="N/A"/></td>
       <td>
