@@ -14,15 +14,20 @@
     </tr>
   </thead>
   <tbody><c:forEach var="truck" items="${trucks}">
-    <tr id="truck<c:out value="${truck.id}"/>">
-      <td><c:out value="${truck.regNumber}" default="N/A"/></td>
+    <tr id="truck<c:out value="${truck.id}" />" 
+        class="<c:choose>
+          <c:when test="${truck.state.condition.name eq 'operable'}">success</c:when>
+          <c:when test="${truck.state.condition.name eq 'broken'}">warning</c:when>
+          <c:otherwise></c:otherwise>
+        </c:choose>">
+      <td><c:out value="${truck.regNumber}" default="N/A" /></td>
       <td>
-        <c:out value="${fn:length(truck.driversStates)}" default="-"/>
-          / <c:out value="${truck.driversQuantity}" default="-"/>
+        <c:out value="${fn:length(truck.driversStates)}" default="-" />
+          / <c:out value="${truck.driversQuantity}" default="-" />
       </td>
-      <td><c:out value="${truck.capacityTons}" default="N/A"/></td>
-      <td><c:out value="${truck.state.condition}" default="N/A"/></td>
-      <td><c:out value="${truck.state.town}" default="N/A"/></td>
+      <td><c:out value="${truck.capacityTons}" default="N/A" /></td>
+      <td><c:out value="${truck.state.condition}" default="N/A" /></td>
+      <td><c:out value="${truck.state.town}" default="N/A" /></td>
     </tr>
   </c:forEach></tbody>
 </table>
