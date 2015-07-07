@@ -12,12 +12,8 @@ import javax.persistence.*;
 public class DriverState implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "driver_id")
-    private int driverId;
-
     // bi-directional one-to-one association to Driver
+    @Id
     @OneToOne
     private Driver driver;
 
@@ -35,14 +31,6 @@ public class DriverState implements Serializable {
     private Truck truck;
 
     public DriverState() {
-    }
-
-    public int getDriverId() {
-	return driverId;
-    }
-
-    public void setDriverId(final int driverId) {
-	this.driverId = driverId;
     }
 
     public Driver getDriver() {

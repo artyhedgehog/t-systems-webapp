@@ -15,14 +15,6 @@ public class TruckState implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "truck_id")
-    private int truckId;
-
     // bi-directional many-to-one association to Town
     /**
      *
@@ -34,6 +26,7 @@ public class TruckState implements Serializable {
     /**
      *
      */
+    @Id
     @OneToOne
     private Truck truck;
 
@@ -49,16 +42,7 @@ public class TruckState implements Serializable {
      * @return
      */
     public int getTruckId() {
-	return truckId;
-    }
-
-    /**
-     * @param truckId
-     * @return
-     */
-    public TruckState setTruckId(final int truckId) {
-	this.truckId = truckId;
-	return this;
+	return truck.getId();
     }
 
     /**
