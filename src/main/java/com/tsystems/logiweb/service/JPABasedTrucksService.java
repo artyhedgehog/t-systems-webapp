@@ -16,7 +16,7 @@ import com.tsystems.logiweb.persistence.entities.TruckState;
  * Implementation of the trucks service based on JPA persistence storage.
  */
 public class JPABasedTrucksService extends JPABasedService
-                                    implements TrucksService {
+                                   implements TrucksService {
     /*
      * (non-Javadoc)
      *
@@ -54,10 +54,10 @@ public class JPABasedTrucksService extends JPABasedService
      */
     @Override
     public void addTruck(final String registrationNumber,
-                          final Byte driversQuantity,
-                          final Float capacityInTons,
-                          final Integer conditionId,
-                          final Integer townId) {
+                         final Byte driversQuantity,
+                         final Float capacityInTons,
+                         final Integer conditionId,
+                         final Integer townId) {
         try {
             final EntityManager manager = startService();
 
@@ -90,11 +90,11 @@ public class JPABasedTrucksService extends JPABasedService
      */
     @Override
     public Truck modifyTruck(final Integer truckId,
-                              final String registrationNumber,
-                              final Byte driversQuantity,
-                              final Float capacityInTons,
-                              final Integer conditionId,
-                              final Integer townId) {
+                             final String registrationNumber,
+                             final Byte driversQuantity,
+                             final Float capacityInTons,
+                             final Integer conditionId,
+                             final Integer townId) {
         try {
             final EntityManager manager = startService();
 

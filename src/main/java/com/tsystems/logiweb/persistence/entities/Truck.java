@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,7 +54,7 @@ public class Truck implements Serializable {
     /**
      *
      */
-    @OneToMany(mappedBy = "truck")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "truck")
     private Set<DriverState> driversStates;
 
     // bi-directional many-to-one association to Order
@@ -67,7 +68,7 @@ public class Truck implements Serializable {
     /**
      *
      */
-    @OneToOne(mappedBy = "truck")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "truck")
     private TruckState state;
 
     /**

@@ -1,7 +1,15 @@
 package com.tsystems.logiweb.persistence.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 
 /**
  * The persistent class for the trucks_state database table.
@@ -27,14 +35,14 @@ public class TruckState implements Serializable {
      *
      */
     @Id
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Truck truck;
 
     // bi-directional many-to-one association to TruckCondition
     /**
      *
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "truck_condition_id")
     private TruckCondition condition;
 
