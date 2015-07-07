@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * Implementation of generic DAO for JPA.
@@ -30,7 +31,7 @@ public class JPAGenericDAO<E, K extends Serializable>
     /**
      *
      */
-    private final Class<E> entityType;
+    private final Class<E> entityClass;
 
     /**
      * @param manager
@@ -41,7 +42,7 @@ public class JPAGenericDAO<E, K extends Serializable>
     public JPAGenericDAO(final EntityManager manager,
                          final Class<E> entityClass) {
         entityManager = manager;
-        entityType = entityClass;
+        this.entityClass = entityClass;
     }
 
     /*
@@ -62,9 +63,11 @@ public class JPAGenericDAO<E, K extends Serializable>
     @Override
     public final List<E> read() {
         final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        final CriteriaQuery<E> criteria = builder.createQuery(entityType);
-        final TypedQuery<E> query = entityManager.createQuery(criteria);
-        return query.getResultList();
+        final CriteriaQuery<E> criteria = builder.createQuery(entityClass);
+        final Root<E> root = criteria.from(entityClass);
+        criteria.select(root);
+        final TypedQuery<E> typed = entityManager.createQuery(criteria);
+        return typed.getResultList();
     }
 
     /*
@@ -74,7 +77,7 @@ public class JPAGenericDAO<E, K extends Serializable>
      */
     @Override
     public final E read(final K id) {
-        return entityManager.find(entityType, id);
+        return entityManager.find(entityClass, id);
     }
 
     /*
@@ -99,7 +102,7 @@ public class JPAGenericDAO<E, K extends Serializable>
 
     @Override
     public final void delete(final K id) {
-        entityManager.remove(entityManager.find(entityType, id));
+        entityManager.remove(entityManager.find(entityClass, id));
     }
 
     /*
@@ -128,7 +131,7 @@ public class JPAGenericDAO<E, K extends Serializable>
      * @return
      */
     private boolean fitSample(final E entitySample, final E entity) {
-        for (final Field field : entityType.getDeclaredFields()) {
+        for (final Field field : entityClass.getDeclaredFields()) {
             if (null != field.getAnnotation(Column.class)) {
                 try {
                     final Object value = field.get(entitySample);
