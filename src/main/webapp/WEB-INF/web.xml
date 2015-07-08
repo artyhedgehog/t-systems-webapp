@@ -10,9 +10,19 @@
   	<servlet-name>TrucksPage</servlet-name>
   	<servlet-class>com.tsystems.logiweb.ui.TrucksPageServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<description>A truck adding servlet</description>
+  	<display-name>AddTruckPage</display-name>
+  	<servlet-name>AddTruckPage</servlet-name>
+  	<servlet-class>com.tsystems.logiweb.ui.AddTruckPageServlet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>TrucksPage</servlet-name>
   	<url-pattern>/trucks</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AddTruckPage</servlet-name>
+  	<url-pattern>/trucks/add</url-pattern>
   </servlet-mapping>
 </web-app>
