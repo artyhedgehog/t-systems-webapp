@@ -130,6 +130,6 @@ public class TruckCondition implements Serializable {
 
     @Override
     public String toString() {
-        return getDescription();
+        return getName();
     }
 }
