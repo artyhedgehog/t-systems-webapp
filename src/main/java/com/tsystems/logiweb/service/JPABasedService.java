@@ -2,7 +2,6 @@ package com.tsystems.logiweb.service;
 
 import javax.persistence.EntityManager;
 
-import com.tsystems.logiweb.persistence.JpaHelper;
 import com.tsystems.logiweb.persistence.PersistenceContext;
 
 /**

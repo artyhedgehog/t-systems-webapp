@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
-
 import com.tsystems.logiweb.persistence.entities.Truck;
 import com.tsystems.logiweb.service.JPABasedTrucksService;
 
