@@ -2,8 +2,6 @@ package com.tsystems.logiweb.service;
 
 import javax.persistence.EntityManager;
 
-import com.tsystems.logiweb.persistence.PersistenceContext;
-
 /**
  * Basic framework for a service, working with persistence through JPA.
  *
@@ -39,7 +37,14 @@ abstract public class JPABasedService {
     /**
      * Entity manager instance.
      */
-    private EntityManager entityManager = null;
+    private final EntityManager entityManager;
+
+
+    public JPABasedService(final EntityManager entityManager) {
+        super();
+        this.entityManager = entityManager;
+    }
+
 
     /**
      * Start service and open a transaction.
@@ -47,7 +52,6 @@ abstract public class JPABasedService {
      * @return Entity manager to work with.
      */
     protected EntityManager startService() {
-        initEntityManager();
         beginTransaction();
         return getEntityManager();
     }
@@ -80,15 +84,6 @@ abstract public class JPABasedService {
 
 
     /**
-     * Initialize entity manager.
-     */
-    protected void initEntityManager() {
-        entityManager = PersistenceContext.getContext()
-                                          .getEntityManagerFactory()
-                                          .createEntityManager();
-    }
-
-    /**
      * Begin transaction bound with the entity manager used.
      */
     protected void beginTransaction() {
@@ -100,9 +95,6 @@ abstract public class JPABasedService {
      * @return Entity manager instance for current service.
      */
     protected EntityManager getEntityManager() {
-        if (null == entityManager) {
-            initEntityManager();
-        }
         return entityManager;
     }
 

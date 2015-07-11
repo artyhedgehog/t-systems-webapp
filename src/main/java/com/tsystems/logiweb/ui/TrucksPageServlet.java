@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.tsystems.logiweb.Application;
 import com.tsystems.logiweb.persistence.entities.Truck;
-import com.tsystems.logiweb.service.JPABasedTrucksService;
 
 /**
  * Servlet for trucks managing.
@@ -27,7 +27,8 @@ public class TrucksPageServlet extends BasePageServlet {
      * @return
      */
     private String listTrucks(final HttpServletRequest request) {
-        final List<Truck> trucks = new JPABasedTrucksService().getTrucksList();
+        final List<Truck> trucks = Application.getContext().getServiceFactory()
+                .getTrucksService().getTrucksList();
         request.setAttribute("trucks", trucks);
         return PAGE_VIEW;
     }

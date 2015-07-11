@@ -17,6 +17,11 @@ import com.tsystems.logiweb.persistence.entities.TruckState;
  */
 public class JPABasedTrucksService extends JPABasedService
                                    implements TrucksService {
+
+    public JPABasedTrucksService(final EntityManager entityManager) {
+        super(entityManager);
+    }
+
     /*
      * (non-Javadoc)
      *
