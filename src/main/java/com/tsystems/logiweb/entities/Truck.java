@@ -227,7 +227,8 @@ public class Truck implements LabeledFieldsEntity, Serializable {
     }
 
     public final Integer getTownId() {
-        return getState().getTown().getId();
+        final Town town = getState().getTown();
+        return (null != town) ? town.getId() : null;
     }
 
     @Override

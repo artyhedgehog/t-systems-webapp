@@ -60,7 +60,7 @@ public class RequestParser {
         final String pathInfo = request.getPathInfo();
         final String[] pathParts = pathInfo.split("/");
 
-        return (position < 0) ? pathParts[pathParts.length - position]
+        return (position < 0) ? pathParts[pathParts.length + position]
                               : pathParts[position];
     }
 

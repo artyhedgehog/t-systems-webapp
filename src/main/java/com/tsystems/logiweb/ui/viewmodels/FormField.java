@@ -35,7 +35,7 @@ public abstract class FormField {
                                                       property.substring(1));
         try {
             final Method getter = entity.getClass().getMethod(getterMethodName);
-            return (String) getter.invoke(entity);
+            return "" + getter.invoke(entity);
         } catch (NoSuchMethodException | SecurityException
                  | IllegalAccessException | IllegalArgumentException
                  | InvocationTargetException exception) {
