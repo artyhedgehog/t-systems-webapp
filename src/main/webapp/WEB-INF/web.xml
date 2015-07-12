@@ -1,7 +1,8 @@
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
+         version="3.1">
   <display-name>Logiweb Web Application</display-name>
 
   <servlet>
@@ -17,17 +18,16 @@
   	<servlet-class>com.tsystems.logiweb.ui.AddTruckPageServlet</servlet-class>
   </servlet>
   <servlet>
-  	<description>
-  	</description>
+  	<description>A truck editing servlet</description>
+  	<display-name>EditTruckPage</display-name>
+  	<servlet-name>EditTruckPage</servlet-name>
+  	<servlet-class>com.tsystems.logiweb.ui.EditTruckPageServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<description>A truck deleting servlet</description>
   	<display-name>DeleteTruckServlet</display-name>
   	<servlet-name>DeleteTruckServlet</servlet-name>
-  	<servlet-class>com.tsystems.logiweb.ui.DeleteTruckServlet</servlet-class>
-  </servlet>
-  <servlet>
-  	<description>
-  	</description>
-  	<display-name>DeleteTruckPageServlet</display-name>
-  	<servlet-name>DeleteTruckPageServlet</servlet-name>
   	<servlet-class>com.tsystems.logiweb.ui.DeleteTruckPageServlet</servlet-class>
   </servlet>
   
@@ -39,6 +39,10 @@
   <servlet-mapping>
   	<servlet-name>AddTruckPage</servlet-name>
   	<url-pattern>/trucks/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>EditTruckPage</servlet-name>
+  	<url-pattern>/trucks/edit/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>DeleteTruckServlet</servlet-name>
