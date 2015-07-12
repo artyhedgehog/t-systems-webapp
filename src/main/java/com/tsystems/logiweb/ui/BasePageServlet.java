@@ -25,7 +25,7 @@ public abstract class BasePageServlet extends HttpServlet {
     public static final String DEFAULT_LAYOUT = "default.jsp";
     public static final String ERROR_VIEW = "common/error.jsp";
 
-    protected Logger log = Logger.getLogger(getClass());
+    protected final Logger log = Logger.getLogger(getClass());
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -96,10 +96,9 @@ public abstract class BasePageServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest request,
                           final HttpServletResponse response)
             throws ServletException, IOException {
-            setupRequestAttributes(request);
-            final String view = processPostRequestForAView(request);
-            renderPage(view, request, response);
-
+        setupRequestAttributes(request);
+        final String view = processPostRequestForAView(request);
+        renderPage(view, request, response);
     }
 
     /**
@@ -205,13 +204,24 @@ public abstract class BasePageServlet extends HttpServlet {
                               final HttpServletRequest request,
                               final HttpServletResponse response)
             throws ServletException, IOException {
-        final ServletContext context;
-        final RequestDispatcher dispatcher;
-
         setView(request, "pageView", pageView);
+        forwardToPath(LAYOUTS_PATH + getLayout(), request, response);
+    }
 
-        context = request.getServletContext();
-        dispatcher = context.getRequestDispatcher(LAYOUTS_PATH + getLayout());
+    /**
+     * Forward request to a given path.
+     * @param path
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void forwardToPath(final String path,
+                                 final HttpServletRequest request,
+                                 final HttpServletResponse response)
+            throws ServletException, IOException {
+        final ServletContext context = request.getServletContext();
+        final RequestDispatcher dispatcher = context.getRequestDispatcher(path);
         dispatcher.forward(request, response);
     }
 

@@ -73,7 +73,7 @@ public class JPAGenericDAO<E, K extends Serializable>
     /*
      * (non-Javadoc)
      *
-     * @see GenericDAO#read(java.io.Serializable
+     * @see GenericDAO#read(java.io.Serializable)
      */
     @Override
     public final E read(final K id) {

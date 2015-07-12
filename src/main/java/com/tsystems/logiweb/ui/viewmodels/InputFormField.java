@@ -1,9 +1,11 @@
 package com.tsystems.logiweb.ui.viewmodels;
 
+import com.tsystems.logiweb.entities.LabeledFieldsEntity;
+
 
 public class InputFormField extends FormField {
-    private String placeholder;
-    private FieldType type;
+    private final String placeholder;
+    private final FieldType type;
 
     public InputFormField(final String id, final String label,
                           final String name, final String value,
@@ -13,21 +15,20 @@ public class InputFormField extends FormField {
         this.type = type;
     }
 
+    public InputFormField(final String id, final LabeledFieldsEntity entity,
+                          final String property, final String placeholder,
+                          final FieldType type) {
+        super(id, entity, property);
+        this.placeholder = placeholder;
+        this.type = type;
+    }
+
     public String getPlaceholder() {
         return placeholder;
     }
 
-    public InputFormField setPlaceholder(final String placeholder) {
-        this.placeholder = placeholder;
-        return this;
-    }
-
+    @Override
     public FieldType getType() {
         return type;
-    }
-
-    public InputFormField setType(final FieldType type) {
-        this.type = type;
-        return this;
     }
 }

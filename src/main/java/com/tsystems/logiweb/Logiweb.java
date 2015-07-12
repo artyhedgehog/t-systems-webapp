@@ -10,13 +10,19 @@ import javax.persistence.Persistence;
 
 import com.tsystems.logiweb.service.ServiceFactory;
 
-public class Application {
+/**
+ * Logiweb application implementation of application context.
+ *
+ * Implementation is a thread-safe singleton with access to an instance via
+ * getContext() method.
+ */
+public class Logiweb implements ApplicationContext {
     private static final String ERROR_PERSISTENCE_UNIT_NULL
             = "Persistence unit name cannot be null";
 
     private static final String PERSISTENCE_UNIT_DEFAULT = "logiweb";
 
-    private static final Application context = new Application();
+    private static final ApplicationContext context = new Logiweb();
 
     private final ReadWriteLock emfLock = new ReentrantReadWriteLock();
     private final Map<String, EntityManagerFactory> entityManagerFactories
@@ -26,11 +32,15 @@ public class Application {
     private volatile ServiceFactory serviceFactory;
 
 
-    public static Application getContext() {
+    public static ApplicationContext getContext() {
         return context;
     }
 
 
+    /* (non-Javadoc)
+     * @see com.tsystems.logiweb.ApplicationContext#getEntityManagerFactory(java.lang.String)
+     */
+    @Override
     public EntityManagerFactory getEntityManagerFactory(
             final String persistenceUnit) {
         if (null == persistenceUnit) {
@@ -52,7 +62,7 @@ public class Application {
                 emf = Persistence.createEntityManagerFactory(persistenceUnit);
                 entityManagerFactories.put(persistenceUnit, emf);
             }
-            
+
             emfLock.writeLock().unlock();
         } else {
             emfLock.readLock().unlock();
@@ -61,11 +71,19 @@ public class Application {
         return emf;
     }
 
+    /* (non-Javadoc)
+     * @see com.tsystems.logiweb.ApplicationContext#getEntityManagerFactory()
+     */
+    @Override
     public EntityManagerFactory getEntityManagerFactory() {
         return getEntityManagerFactory(PERSISTENCE_UNIT_DEFAULT);
     }
 
 
+    /* (non-Javadoc)
+     * @see com.tsystems.logiweb.ApplicationContext#getServiceFactory()
+     */
+    @Override
     public ServiceFactory getServiceFactory() {
         sfLock.readLock().lock();
         if (null == serviceFactory) {
@@ -79,7 +97,7 @@ public class Application {
             if (null == serviceFactory) {
                 serviceFactory = new ServiceFactory(getEntityManagerFactory());
             }
-            
+
             sfLock.writeLock().unlock();
         } else {
             sfLock.readLock().unlock();

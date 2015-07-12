@@ -2,27 +2,30 @@ package com.tsystems.logiweb.ui.viewmodels;
 
 import java.util.List;
 
+import com.tsystems.logiweb.entities.LabeledFieldsEntity;
+
 /**
  *
- * @param <E> Entity type for options.
+ * @param <O> Entity type for options.
  */
-public class SelectFormField<E> extends FormField {
-    private List<E> options;
+public class SelectFormField<O> extends FormField {
+    private final List<O> options;
 
     public SelectFormField(final String id, final String label,
                            final String name, final String value,
-                           final List<E> options) {
+                           final List<O> options) {
         super(id, label, name, value);
         this.options = options;
     }
 
-    public List<E> getOptions() {
-        return options;
+    public SelectFormField(final String id, final LabeledFieldsEntity entity,
+                           final String property, final List<O> options) {
+        super(id, entity, property);
+        this.options = options;
     }
 
-    public SelectFormField<E> setOptions(final List<E> options) {
-        this.options = options;
-        return this;
+    public List<O> getOptions() {
+        return options;
     }
 
     @Override

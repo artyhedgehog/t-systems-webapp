@@ -16,13 +16,32 @@
   	<servlet-name>AddTruckPage</servlet-name>
   	<servlet-class>com.tsystems.logiweb.ui.AddTruckPageServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>DeleteTruckServlet</display-name>
+  	<servlet-name>DeleteTruckServlet</servlet-name>
+  	<servlet-class>com.tsystems.logiweb.ui.DeleteTruckServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<description>
+  	</description>
+  	<display-name>DeleteTruckPageServlet</display-name>
+  	<servlet-name>DeleteTruckPageServlet</servlet-name>
+  	<servlet-class>com.tsystems.logiweb.ui.DeleteTruckPageServlet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>TrucksPage</servlet-name>
   	<url-pattern>/trucks</url-pattern>
+  	<url-pattern>/trucks/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>AddTruckPage</servlet-name>
   	<url-pattern>/trucks/add</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DeleteTruckServlet</servlet-name>
+  	<url-pattern>/trucks/delete/*</url-pattern>
   </servlet-mapping>
 </web-app>

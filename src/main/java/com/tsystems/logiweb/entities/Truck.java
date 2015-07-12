@@ -1,6 +1,8 @@
-package com.tsystems.logiweb.persistence.entities;
+package com.tsystems.logiweb.entities;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "trucks")
-public class Truck implements Serializable {
+public class Truck implements LabeledFieldsEntity, Serializable {
     /**
      * Utility serialization property.
      */
@@ -218,5 +220,24 @@ public class Truck implements Serializable {
     public final Truck setState(final TruckState state) {
         this.state = state;
         return this;
+    }
+
+    public final Integer getConditionId() {
+        return getState().getCondition().getId();
+    }
+
+    public final Integer getTownId() {
+        return getState().getTown().getId();
+    }
+
+    @Override
+    public Map<String, String> fieldsLabels() {
+        final Map<String, String> fields = new HashMap<>();
+        fields.put("regNumber", "Registration number");
+        fields.put("driversQuantity", "Drivers quantity");
+        fields.put("capacityTons", "Capacity (tons)");
+        fields.put("conditionId", "Condition");
+        fields.put("townId", "Town");
+        return fields;
     }
 }

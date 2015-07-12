@@ -11,9 +11,12 @@
       <div class="col-sm-7"> 
         <c:choose>
           <c:when test="${field.type eq 'SELECT'}">
-            <select>
+            <select name="${field.name}" class="form-control">
               <c:forEach var="option" items="${field.options}">
-                <option <c:if test="${field.value}" /> value="${option.id}">
+                <option value="${option.id}"
+                        <c:if test="${field.value eq option.id}">
+                          selected="selected"
+                        </c:if>>
                   <c:out value="${option}" />
                 </option>
               </c:forEach>

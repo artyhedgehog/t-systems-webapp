@@ -14,13 +14,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>
-      <c:out value="${appTitle}" default="Application name not found"/>
-        - <c:out value="${pageTitle}" default="Page title not found"/>
+      <c:out value="${appTitle}" default="Application name not found" />
+        - <c:out value="${pageTitle}" default="Page title not found" />
     </title>
 
     <%-- CSS linking --%>
     <c:forEach var="url" items="${stylesheets}">
-      <link rel="stylesheet" href="<c:url value="${url}"/>">
+      <link rel="stylesheet" href="<c:url value="${url}" />">
     </c:forEach>
     
     <%-- Bootstrap fix for IE --%>
@@ -36,20 +36,23 @@
     <!-- Container for a sticky footer -->
     <div class="container">
       <c:if test="${not empty headerView}">
-        <header><jsp:include page="${headerView}" flush="true"/></header>
+        <header><jsp:include page="${headerView}" flush="true" /></header>
       </c:if>
   
+      <c:if test="${not empty alertView}">
+        <jsp:include page="${alertView}" flush="true" />
+      </c:if>
       <main> 
         <%-- Sidebar --%>
         <c:if test="${not empty sidebarView}">
-          <aside><jsp:include page="${sidebarView}" flush="true"/></aside>
+          <aside><jsp:include page="${sidebarView}" flush="true" /></aside>
         </c:if>
         
-        <h1><c:out value="${pageTitle}" default="Page title is not set"/></h1>
+        <h1><c:out value="${pageTitle}" default="Page title is not set" /></h1>
         <%-- Main page content --%>
         <c:choose>
           <c:when test="${not empty pageView}">
-            <jsp:include page="${pageView}" flush="true"/>
+            <jsp:include page="${pageView}" flush="true" />
           </c:when>
           <c:otherwise>Page content view is not set.</c:otherwise>
         </c:choose>
@@ -58,13 +61,13 @@
     
     <c:if test="${not empty footerView}">
       <footer class="sticky-footer">
-        <jsp:include page="${footerView}" flush="true"/>
+        <jsp:include page="${footerView}" flush="true" />
       </footer>
     </c:if>
     
     <%-- JavaScript initializing --%>
     <c:forEach var="url" items="${scripts}">
-      <script type="text/javascript" src="<c:url value="${url}"/>"></script>
+      <script type="text/javascript" src="<c:url value="${url}" />"></script>
     </c:forEach>
   </body>
 </html>

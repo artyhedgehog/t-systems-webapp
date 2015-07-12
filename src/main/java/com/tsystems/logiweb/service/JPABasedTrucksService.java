@@ -6,11 +6,13 @@ package com.tsystems.logiweb.service;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+
+import com.tsystems.logiweb.entities.Town;
+import com.tsystems.logiweb.entities.Truck;
+import com.tsystems.logiweb.entities.TruckCondition;
+import com.tsystems.logiweb.entities.TruckState;
 import com.tsystems.logiweb.persistence.JPAGenericDAO;
-import com.tsystems.logiweb.persistence.entities.Town;
-import com.tsystems.logiweb.persistence.entities.Truck;
-import com.tsystems.logiweb.persistence.entities.TruckCondition;
-import com.tsystems.logiweb.persistence.entities.TruckState;
 
 /**
  * Implementation of the trucks service based on JPA persistence storage.
@@ -62,17 +64,19 @@ public class JPABasedTrucksService extends JPABasedService
                          final Byte driversQuantity,
                          final Float capacityInTons,
                          final Integer conditionId,
-                         final Integer townId) {
+                         final Integer townId) throws ServiceException {
         try {
             final EntityManager manager = startService();
 
             final TruckCondition condition = buildTruckConditionDAO(manager)
                     .read(conditionId);
-            final Town town = buildTownDAO(manager).read(townId);
+            final Town town = (null != townId)
+                    ? buildTownDAO(manager).read(townId)
+                    : null;
 
             final Truck truck = new Truck().setRegNumber(registrationNumber)
-                    .setDriversQuantity(driversQuantity)
-                    .setCapacityTons(capacityInTons);
+                                           .setDriversQuantity(driversQuantity)
+                                           .setCapacityTons(capacityInTons);
             buildTruckDAO(manager).create(truck);
 
             final TruckState state = new TruckState().setTruck(truck)
@@ -80,6 +84,8 @@ public class JPABasedTrucksService extends JPABasedService
             buildTruckStateDAO(manager).create(state);
 
             commitTransaction();
+        } catch (final PersistenceException exception) {
+            throw new ServiceException("Could not add truck.", exception);
         } finally {
             cleanupService();
         }
@@ -131,6 +137,15 @@ public class JPABasedTrucksService extends JPABasedService
     public void removeTruck(final Integer truckId) {
         try {
             buildTruckDAO(getEntityManager()).delete(truckId);
+        } finally {
+            closeEntityManager();
+        }
+    }
+
+    @Override
+    public List<TruckCondition> getConditionsList() {
+        try {
+            return buildTruckConditionDAO(getEntityManager()).read();
         } finally {
             closeEntityManager();
         }

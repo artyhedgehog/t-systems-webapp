@@ -1,12 +1,50 @@
 package com.tsystems.logiweb.ui.viewmodels;
 
-/**
- */
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import org.apache.log4j.Logger;
+
+import com.tsystems.logiweb.entities.LabeledFieldsEntity;
+
 public abstract class FormField {
-    private String id;
-    private String label;
-    private String name;
-    private String value;
+    private static final String NAME_FORMAT = "%s[%s]";
+
+    private final String id;
+    private final String label;
+    private final String name;
+    private final String value;
+
+
+    public FormField(final String id, final LabeledFieldsEntity entity,
+                     final String property) {
+        this(id, entity.fieldsLabels().get(property), getName(entity, property),
+             getValue(entity, property));
+    }
+
+    public static String getName(final Object entity, final String property) {
+        return String.format(NAME_FORMAT, entity.getClass().getSimpleName(),
+                             property);
+    }
+
+    public static String getValue(final Object entity, final String property) {
+        final String getterMethodName = String.format("get%s%s",
+                                                      property.substring(0, 1)
+                                                              .toUpperCase(),
+                                                      property.substring(1));
+        try {
+            final Method getter = entity.getClass().getMethod(getterMethodName);
+            return (String) getter.invoke(entity);
+        } catch (NoSuchMethodException | SecurityException
+                 | IllegalAccessException | IllegalArgumentException
+                 | InvocationTargetException exception) {
+            Logger.getLogger(FormField.class)
+                  .warn(String.format("Failed getting value for a property %s.",
+                                      property),
+                        exception);
+            return "";
+        }
+    }
 
     public FormField(final String id, final String label,
                      final String name, final String value) {
@@ -21,36 +59,16 @@ public abstract class FormField {
         return id;
     }
 
-    public FormField setId(final String id) {
-        this.id = id;
-        return this;
-    }
-
     public String getLabel() {
         return label;
-    }
-
-    public FormField setLabel(final String label) {
-        this.label = label;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public FormField setName(final String name) {
-        this.name = name;
-        return this;
-    }
-
     public String getValue() {
         return value;
-    }
-
-    public FormField setValue(final String value) {
-        this.value = value;
-        return this;
     }
 
     public abstract FieldType getType();
