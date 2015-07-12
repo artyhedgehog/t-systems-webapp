@@ -44,7 +44,7 @@
       <td><c:out value="${truck.state.town}" default="N/A" /></td>
       <td>
         <a role="button" href="<c:url value="/trucks/delete/${truck.id}" />" 
-           class="btn btn-danger btn-sm pull-left">
+           class="btn btn-danger btn-sm pull-right">
           Delete
         </a>
         <a role="button" href="<c:url value="/trucks/edit/${truck.id}" />"
