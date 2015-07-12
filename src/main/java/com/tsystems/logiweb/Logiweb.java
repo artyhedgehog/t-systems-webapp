@@ -8,6 +8,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.apache.log4j.Logger;
+
 import com.tsystems.logiweb.service.ServiceFactory;
 
 /**
@@ -104,5 +106,11 @@ public class Logiweb implements ApplicationContext {
         }
 
         return serviceFactory;
+    }
+
+
+    @Override
+    public Logger getLogger(final Class<?> loggedClass) {
+        return Logger.getLogger(loggedClass);
     }
 }

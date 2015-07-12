@@ -223,10 +223,16 @@ public class Truck implements LabeledFieldsEntity, Serializable {
     }
 
     public final Integer getConditionId() {
+        if (null == getState()) {
+            return null;
+        }
         return getState().getCondition().getId();
     }
 
     public final Integer getTownId() {
+        if (null == getState()) {
+            return null;
+        }
         final Town town = getState().getTown();
         return (null != town) ? town.getId() : null;
     }

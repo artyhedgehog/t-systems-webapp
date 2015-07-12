@@ -2,6 +2,8 @@ package com.tsystems.logiweb;
 
 import javax.persistence.EntityManagerFactory;
 
+import org.apache.log4j.Logger;
+
 import com.tsystems.logiweb.service.ServiceFactory;
 
 /**
@@ -31,4 +33,11 @@ public interface ApplicationContext {
      * @return
      */
     ServiceFactory getServiceFactory();
+
+    /**
+     * Get logger for the class that needs logging.
+     * @param loggedClass
+     * @return
+     */
+    Logger getLogger(Class<?> loggedClass);
 }

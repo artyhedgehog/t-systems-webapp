@@ -2,6 +2,8 @@ package com.tsystems.logiweb.service;
 
 import javax.persistence.EntityManager;
 
+import org.apache.log4j.Logger;
+
 /**
  * Basic framework for a service, working with persistence through JPA.
  *
@@ -35,14 +37,21 @@ import javax.persistence.EntityManager;
 abstract public class JPABasedService {
 
     /**
+     * Logger for services.
+     */
+    protected final Logger log;
+
+    /**
      * Entity manager instance.
      */
     private final EntityManager entityManager;
 
 
-    public JPABasedService(final EntityManager entityManager) {
+    public JPABasedService(final EntityManager entityManager,
+                           final Logger logger) {
         super();
         this.entityManager = entityManager;
+        log = logger;
     }
 
 

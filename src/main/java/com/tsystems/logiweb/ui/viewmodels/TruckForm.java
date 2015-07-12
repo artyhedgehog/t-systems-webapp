@@ -34,7 +34,7 @@ public class TruckForm extends Form {
                                                     conditions),
                 new SelectFormField<Town>("town-select", entity, "townId",
                                           towns),
-                new InputFormField("truck-form-submit", "", "", "Add truck", "",
+                new InputFormField("truck-form-submit", "", "", "Save", "",
                                    FieldType.SUBMIT)
         };
 

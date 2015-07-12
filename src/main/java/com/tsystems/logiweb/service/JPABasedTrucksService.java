@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
+import org.apache.log4j.Logger;
+
 import com.tsystems.logiweb.entities.Town;
 import com.tsystems.logiweb.entities.Truck;
 import com.tsystems.logiweb.entities.TruckCondition;
@@ -20,8 +22,17 @@ import com.tsystems.logiweb.persistence.JPAGenericDAO;
 public class JPABasedTrucksService extends JPABasedService
                                    implements TrucksService {
 
-    public JPABasedTrucksService(final EntityManager entityManager) {
-        super(entityManager);
+    private static final String INFO_UPDATED = "The truck #%d successfully updated.";
+    private static final String INFO_CREATED = "New truck (%s) created with id %d.";
+    public static final String ERROR_NOT_ADDED = "Could not add truck.";
+    public static final String
+            ERROR_NOT_SAVED = "Could not save truck modifications.";
+    public static final String
+            ERROR_NOT_FOUND = "Could not find truck with id %d.";
+
+    public JPABasedTrucksService(final EntityManager entityManager,
+                                 final Logger logger) {
+        super(entityManager, logger);
     }
 
     /*
@@ -44,9 +55,11 @@ public class JPABasedTrucksService extends JPABasedService
      * @see com.tsystems.logiweb.service.TrucksService#getTruck(java.lang.Long)
      */
     @Override
-    public Truck getTruck(final Integer id) {
+    public Truck getTruck(final Integer id) throws ServiceException {
         try {
             return buildTruckDAO(getEntityManager()).read(id);
+        } catch (final PersistenceException e) {
+            throw new ServiceException(String.format(ERROR_NOT_FOUND, id), e);
         } finally {
             closeEntityManager();
         }
@@ -60,11 +73,12 @@ public class JPABasedTrucksService extends JPABasedService
      * java.lang.Integer, java.lang.Float, java.lang.String, java.lang.String)
      */
     @Override
-    public void addTruck(final String registrationNumber,
+    public Truck addTruck(final String registrationNumber,
                          final Byte driversQuantity,
                          final Float capacityInTons,
                          final Integer conditionId,
-                         final Integer townId) throws ServiceException {
+                         final Integer townId)
+            throws ServiceException {
         try {
             final EntityManager manager = startService();
 
@@ -84,8 +98,12 @@ public class JPABasedTrucksService extends JPABasedService
             buildTruckStateDAO(manager).create(state);
 
             commitTransaction();
+            log.info(String.format(INFO_CREATED, truck.getRegNumber(),
+                                   truck.getId()));
+
+            return truck;
         } catch (final PersistenceException exception) {
-            throw new ServiceException("Could not add truck.", exception);
+            throw new ServiceException(ERROR_NOT_ADDED, exception);
         } finally {
             cleanupService();
         }
@@ -105,7 +123,8 @@ public class JPABasedTrucksService extends JPABasedService
                              final Byte driversQuantity,
                              final Float capacityInTons,
                              final Integer conditionId,
-                             final Integer townId) {
+                             final Integer townId)
+            throws ServiceException {
         try {
             final EntityManager manager = startService();
 
@@ -117,11 +136,16 @@ public class JPABasedTrucksService extends JPABasedService
             final TruckCondition condition = buildTruckConditionDAO(manager)
                     .read(conditionId);
             final TruckState state = truck.getState();
-            final Town town = buildTownDAO(manager).read(townId);
+            final Town town = (null != townId)
+                    ? buildTownDAO(manager).read(townId)
+                    : null;
             state.setCondition(condition).setTown(town);
 
             commitTransaction();
+            log.info(String.format(INFO_UPDATED, truck.getId()));
             return truck;
+        } catch (final PersistenceException e) {
+            throw new ServiceException(ERROR_NOT_SAVED, e);
         } finally {
             cleanupService();
         }

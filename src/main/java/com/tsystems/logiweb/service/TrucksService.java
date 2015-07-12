@@ -17,8 +17,9 @@ public interface TrucksService {
     /**
      * @param id
      * @return
+     * @throws ServiceException
      */
-    Truck getTruck(Integer id);
+    Truck getTruck(Integer id) throws ServiceException;
 
     /**
      * @param registrationNumber
@@ -29,22 +30,24 @@ public interface TrucksService {
      * @return
      * @throws ServiceException
      */
-    void addTruck(String registrationNumber, Byte driversQuantity,
+    Truck addTruck(String registrationNumber, Byte driversQuantity,
                   Float capacityInTons, Integer conditionId, Integer townId)
             throws ServiceException;
 
     /**
-     * @param truckId TODO
+     * @param truckId
      * @param registrationNumber
      * @param driversQuantity
      * @param capacityInTons
      * @param conditionId
      * @param townId
      * @return
+     * @throws ServiceException
      */
     Truck modifyTruck(Integer truckId, String registrationNumber,
                       Byte driversQuantity, Float capacityInTons,
-                      Integer conditionId, Integer townId);
+                      Integer conditionId, Integer townId)
+            throws ServiceException;
 
     /**
      * @param truckId
