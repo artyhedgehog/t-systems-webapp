@@ -36,8 +36,7 @@ public abstract class BasePageServlet extends HttpServlet {
                          final HttpServletResponse response)
             throws ServletException, IOException {
         setupRequestAttributes(request);
-        final String view = processGetRequestForAView(request);
-        renderPage(view, request, response);
+        processGetRequestForDispatcher(request).forward(request, response);
     }
 
     /**
@@ -46,12 +45,11 @@ public abstract class BasePageServlet extends HttpServlet {
      * Method might set request attributes if needed.
      *
      * @param request Request to process and store attributes.
-     * @return Layout file name relative to {@link BasePageServlet.LAYOUTS_PATH}
-     *         to render or null to use {@link BasePageServlet.DEFAULT_LAYOUT}.
+     * @return Dispatcher set to servlet or a page to forward to.
      *
      * @see BasePageServlet.processPostRequestForLayout
      */
-    protected abstract String processGetRequestForAView(
+    protected abstract RequestDispatcher processGetRequestForDispatcher(
             HttpServletRequest request);
 
     @Override
@@ -85,7 +83,7 @@ public abstract class BasePageServlet extends HttpServlet {
 
         response.setStatus(code);
 
-        renderPage(ERROR_VIEW, request, response);
+        dispatchPage(ERROR_VIEW, request);
     }
 
     /**
@@ -97,8 +95,7 @@ public abstract class BasePageServlet extends HttpServlet {
                           final HttpServletResponse response)
             throws ServletException, IOException {
         setupRequestAttributes(request);
-        final String view = processPostRequestForAView(request);
-        renderPage(view, request, response);
+        processPostRequestForDispatcher(request).forward(request, response);
     }
 
     /**
@@ -107,12 +104,11 @@ public abstract class BasePageServlet extends HttpServlet {
      * Method might set request attributes if needed.
      *
      * @param request Request to process and store attributes.
-     * @return Layout file name relative to {@link BasePageServlet.LAYOUTS_PATH}
-     *         to render or null to use {@link BasePageServlet.DEFAULT_LAYOUT}.
+     * @return Dispatcher set to servlet or a page to forward to.
      *
      * @see BasePageServlet.processGetRequestForLayout
      */
-    protected abstract String processPostRequestForAView(
+    protected abstract RequestDispatcher processPostRequestForDispatcher(
             HttpServletRequest request);
 
     /**
@@ -166,9 +162,11 @@ public abstract class BasePageServlet extends HttpServlet {
      * @return List of stylesheets URL's.
      */
     protected List<String> getCSSStylesheetURLs() {
-        final String[] css = {"/lib/bootstrap-3.3.5-dist/css/bootstrap.css",
-                              "/lib/bootstrap-3.3.5-dist/css/bootstrap-theme.css",
-                              "/css/sticky-footer.css"};
+        final String[] css = {
+                "/lib/bootstrap-3.3.5-dist/css/bootstrap.css",
+                "/lib/bootstrap-3.3.5-dist/css/bootstrap-theme.css",
+                "/css/sticky-footer.css"
+        };
         return Arrays.asList(css);
     }
 
@@ -188,41 +186,42 @@ public abstract class BasePageServlet extends HttpServlet {
      * @param getLayout(viewRelativePath)
      */
     protected void setView(final HttpServletRequest request,
-            final String attributeName, final String viewRelativePath) {
+                           final String attributeName,
+                           final String viewRelativePath) {
         request.setAttribute(attributeName, VIEWS_PATH + viewRelativePath);
+    }
+
+    protected void setAlert(final HttpServletRequest request,
+                            final String viewRelativePath,
+                            final String alertType,
+                            final String alertMessage) {
+        setView(request, "alertView", viewRelativePath);
+        request.setAttribute("alertType", alertType);
+        request.setAttribute("alertMessage", alertMessage);
     }
 
     /**
      * Render given view in the page layout.
      * @param pageView
      * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @return TODO
      */
-    protected void renderPage(final String pageView,
-                              final HttpServletRequest request,
-                              final HttpServletResponse response)
-            throws ServletException, IOException {
+    protected RequestDispatcher dispatchPage(final String pageView,
+                                             final HttpServletRequest request) {
         setView(request, "pageView", pageView);
-        forwardToPath(LAYOUTS_PATH + getLayout(), request, response);
+        return dispatchPath(LAYOUTS_PATH + getLayout(), request);
     }
 
     /**
      * Forward request to a given path.
      * @param path
      * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @return
      */
-    protected void forwardToPath(final String path,
-                                 final HttpServletRequest request,
-                                 final HttpServletResponse response)
-            throws ServletException, IOException {
+    protected RequestDispatcher dispatchPath(final String path,
+                                             final HttpServletRequest request) {
         final ServletContext context = request.getServletContext();
-        final RequestDispatcher dispatcher = context.getRequestDispatcher(path);
-        dispatcher.forward(request, response);
+        return context.getRequestDispatcher(path);
     }
 
 

@@ -7,13 +7,13 @@ import com.tsystems.logiweb.ui.viewmodels.FormField;
 
 public class RequestParser {
     private final HttpServletRequest request;
-    private final LabeledFieldsEntity entity;
+    private final Class<?> entityClass;
 
     public RequestParser(final HttpServletRequest request,
-                         final LabeledFieldsEntity entity) {
+                         final Class<?> entityClass) {
         super();
         this.request = request;
-        this.entity = entity;
+        this.entityClass = entityClass;
     }
 
     /**
@@ -23,7 +23,7 @@ public class RequestParser {
      * @return
      */
     public String getValue(final String property) {
-        return request.getParameter(FormField.getName(entity, property));
+        return request.getParameter(FormField.getName(entityClass, property));
     }
 
     public Byte getValueAsByte(final String property) {
@@ -54,5 +54,17 @@ public class RequestParser {
             return 0f;
         }
         return Float.parseFloat(raw);
+    }
+
+    public String getPathPart(final int position) {
+        final String pathInfo = request.getPathInfo();
+        final String[] pathParts = pathInfo.split("/");
+
+        return (position < 0) ? pathParts[pathParts.length - position]
+                              : pathParts[position];
+    }
+
+    public Integer getPathPartAsInteger(final int position) {
+        return Integer.parseInt(getPathPart(position));
     }
 }

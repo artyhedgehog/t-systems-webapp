@@ -1,12 +1,10 @@
 package com.tsystems.logiweb.ui;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.tsystems.logiweb.Logiweb;
 import com.tsystems.logiweb.entities.Town;
@@ -22,12 +20,12 @@ public class AddTruckPageServlet extends BasePageServlet {
 
     public static final String ALERT_VIEW = "common/alert.jsp";
     public static final String PAGE_TITLE = "Add truck";
-    public static final String PAGE_VIEW = "trucks/add.jsp";
+    public static final String PAGE_VIEW = "trucks/form.jsp";
 
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected String processGetRequestForAView(
+    protected RequestDispatcher processGetRequestForDispatcher(
             final HttpServletRequest request) {
         final ServiceFactory serviceFactory = Logiweb.getContext()
                                                      .getServiceFactory();
@@ -38,26 +36,16 @@ public class AddTruckPageServlet extends BasePageServlet {
         final Truck sample = new Truck();
         final Form formViewModel = new TruckForm(sample, conditions, towns);
         request.setAttribute("form", formViewModel);
-        return PAGE_VIEW;
+        return dispatchPage(PAGE_VIEW, request);
     }
 
     @Override
-    protected String processPostRequestForAView(
+    protected RequestDispatcher processPostRequestForDispatcher(
             final HttpServletRequest request) {
-
-        return null;
-    }
-
-
-    @Override
-    protected void doPost(final HttpServletRequest request,
-            final HttpServletResponse response) throws ServletException, IOException {
-        setupRequestAttributes(request);
-
         final TrucksService service = Logiweb.getContext()
                                              .getServiceFactory()
                                              .getTrucksService();
-        final RequestParser parser = new RequestParser(request, new Truck());
+        final RequestParser parser = new RequestParser(request, Truck.class);
 
         final String registrationNumber = parser.getValue("regNumber");
         final Byte driversQuantity = parser.getValueAsByte("driversQuantity");
@@ -80,7 +68,7 @@ public class AddTruckPageServlet extends BasePageServlet {
         request.setAttribute("alertType", alertType);
         request.setAttribute("alertMessage", alertMessage);
 
-        forwardToPath("/trucks", request, response);
+        return dispatchPath("/trucks", request);
     }
 
     @Override

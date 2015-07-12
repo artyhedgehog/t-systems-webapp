@@ -18,12 +18,13 @@ public abstract class FormField {
 
     public FormField(final String id, final LabeledFieldsEntity entity,
                      final String property) {
-        this(id, entity.fieldsLabels().get(property), getName(entity, property),
-             getValue(entity, property));
+        this(id, entity.fieldsLabels().get(property),
+             getName(entity.getClass(), property), getValue(entity, property));
     }
 
-    public static String getName(final Object entity, final String property) {
-        return String.format(NAME_FORMAT, entity.getClass().getSimpleName(),
+    public static String getName(final Class<?> entityClass,
+                                 final String property) {
+        return String.format(NAME_FORMAT, entityClass.getSimpleName(),
                              property);
     }
 

@@ -2,6 +2,7 @@ package com.tsystems.logiweb.ui;
 
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 import com.tsystems.logiweb.Logiweb;
@@ -17,7 +18,7 @@ public class TrucksPageServlet extends BasePageServlet {
 
 
     @Override
-    protected String processGetRequestForAView(
+    protected RequestDispatcher processGetRequestForDispatcher(
             final HttpServletRequest request) {
         return listTrucks(request);
     }
@@ -26,15 +27,15 @@ public class TrucksPageServlet extends BasePageServlet {
      * @param request
      * @return
      */
-    private String listTrucks(final HttpServletRequest request) {
+    private RequestDispatcher listTrucks(final HttpServletRequest request) {
         final List<Truck> trucks = Logiweb.getContext().getServiceFactory()
                 .getTrucksService().getTrucksList();
         request.setAttribute("trucks", trucks);
-        return PAGE_VIEW;
+        return dispatchPage(PAGE_VIEW, request);
     }
 
     @Override
-    protected String processPostRequestForAView(
+    protected RequestDispatcher processPostRequestForDispatcher(
             final HttpServletRequest request) {
 
         return listTrucks(request);
