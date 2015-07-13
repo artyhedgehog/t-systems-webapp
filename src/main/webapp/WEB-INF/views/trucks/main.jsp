@@ -11,18 +11,20 @@
       <th>Capacity (tons)</th>
       <th>Condition</th>
       <th>Current town</th>
-      <th>
-        <%-- TODO: search
-        <a role="button" href="<c:url value="/trucks/find" />" 
-           class="btn btn-primary btn-sm">
-          Find
-        </a>
-        --%>
-        <a role="button" href="<c:url value="/trucks/add" />"
-           class="btn btn-success btn-sm pull-right">
-          Add
-        </a>
-      </th>
+      <c:if test="${listControlsEnabled}">
+        <th>
+          <%-- TODO: search
+          <a role="button" href="<c:url value="/trucks/find" />" 
+             class="btn btn-primary btn-sm">
+            Find
+          </a>
+          --%>
+          <a role="button" href="<c:url value="/trucks/add" />"
+             class="btn btn-success btn-sm pull-right">
+            Add
+          </a>
+        </th>
+      </c:if>
     </tr>
   </thead>
   <tbody><c:forEach var="truck" items="${trucks}">
@@ -42,16 +44,18 @@
         <c:out value="${truck.state.condition}" default="N/A" />
       </td>
       <td><c:out value="${truck.state.town}" default="N/A" /></td>
-      <td>
-        <a role="button" href="<c:url value="/trucks/delete/${truck.id}" />" 
-           class="btn btn-danger btn-sm pull-right">
-          Delete
-        </a>
-        <a role="button" href="<c:url value="/trucks/edit/${truck.id}" />"
-           class="btn btn-warning btn-sm pull-right">
-          Edit
-        </a>
-      </td>
+      <c:if test="${listControlsEnabled}">
+        <td>
+          <a role="button" href="<c:url value="/trucks/delete/${truck.id}" />" 
+             class="btn btn-danger btn-sm pull-right">
+            Delete
+          </a>
+          <a role="button" href="<c:url value="/trucks/edit/${truck.id}" />"
+             class="btn btn-warning btn-sm pull-right">
+            Edit
+          </a>
+        </td>
+      </c:if>
     </tr>
   </c:forEach></tbody>
 </table>

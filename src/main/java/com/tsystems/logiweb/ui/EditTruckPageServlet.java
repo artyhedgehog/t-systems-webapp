@@ -17,7 +17,6 @@ import com.tsystems.logiweb.ui.viewmodels.Form;
 import com.tsystems.logiweb.ui.viewmodels.TruckForm;
 
 public class EditTruckPageServlet extends BasePageServlet {
-
     public static final String ALERT_VIEW = "common/alert.jsp";
     public static final String PAGE_TITLE = "Edit truck";
     public static final String PAGE_VIEW = "trucks/form.jsp";
@@ -41,7 +40,7 @@ public class EditTruckPageServlet extends BasePageServlet {
         } catch (final ServiceException e) {
             log.warn(e.getMessage(), e);
             setAlert(request, ALERT_VIEW, "danger", e.getMessage());
-            return dispatchPath("/trucks", request);
+            return dispatchPath(TrucksPageServlet.PATH, request);
         }
         final Form formViewModel = new TruckForm(truck, conditions, towns);
         request.setAttribute("form", formViewModel);

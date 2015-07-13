@@ -42,6 +42,7 @@
       <c:if test="${not empty alertView}">
         <jsp:include page="${alertView}" flush="true" />
       </c:if>
+      
       <main> 
         <%-- Sidebar --%>
         <c:if test="${not empty sidebarView}">

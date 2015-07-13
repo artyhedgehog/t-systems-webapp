@@ -12,6 +12,7 @@ import com.tsystems.logiweb.entities.Truck;
  * Servlet for trucks managing.
  */
 public class TrucksPageServlet extends BasePageServlet {
+    public static final String PATH = "/trucks";
     public static final String PAGE_VIEW = "trucks/main.jsp";
     public static final String PAGE_TITLE = "Trucks";
     private static final long serialVersionUID = 1L;
@@ -29,8 +30,9 @@ public class TrucksPageServlet extends BasePageServlet {
      */
     private RequestDispatcher listTrucks(final HttpServletRequest request) {
         final List<Truck> trucks = Logiweb.getContext().getServiceFactory()
-                .getTrucksService().getTrucksList();
+                                          .getTrucksService().getTrucksList();
         request.setAttribute("trucks", trucks);
+        request.setAttribute("listControlsEnabled", true);
         return dispatchPage(PAGE_VIEW, request);
     }
 
