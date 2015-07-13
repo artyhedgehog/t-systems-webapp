@@ -1,7 +1,9 @@
 package com.tsystems.logiweb.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +15,12 @@ import com.tsystems.logiweb.entities.TruckCondition;
 import com.tsystems.logiweb.service.ServiceException;
 import com.tsystems.logiweb.service.ServiceFactory;
 import com.tsystems.logiweb.service.TrucksService;
+import com.tsystems.logiweb.service.validation.ValidationException;
 import com.tsystems.logiweb.ui.viewmodels.Form;
 import com.tsystems.logiweb.ui.viewmodels.TruckForm;
 
 public class EditTruckPageServlet extends BasePageServlet {
+    private static final String ERROR_VALIDATION = "Validation failed. Please, correct the information below.";
     public static final String ALERT_VIEW = "common/alert.jsp";
     public static final String PAGE_TITLE = "Edit truck";
     public static final String PAGE_VIEW = "trucks/form.jsp";
@@ -72,6 +76,17 @@ public class EditTruckPageServlet extends BasePageServlet {
 
             alertType = "success";
             alertMessage = "Editions to the truck has been succesfully saved.";
+        } catch (final ValidationException e) {
+            log.info("Validation failed.", e);
+
+            setAlert(request, ALERT_VIEW, "danger", ERROR_VALIDATION);
+
+            final Map<String, String> validationErrors = new HashMap<>();
+            validationErrors.put(e.getProperty(), e.getMessage());
+            request.setAttribute("validationErrors", validationErrors);
+
+            // Show form again
+            return processGetRequestForDispatcher(request);
         } catch (final ServiceException exception) {
             log.warn(exception.getMessage(), exception);
             alertType = "danger";

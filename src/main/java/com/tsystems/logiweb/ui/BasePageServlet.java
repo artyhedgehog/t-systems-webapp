@@ -211,7 +211,7 @@ public abstract class BasePageServlet extends HttpServlet {
      * Render given view in the page layout.
      * @param pageView
      * @param request
-     * @return TODO
+     * @return
      */
     protected RequestDispatcher dispatchPage(final String pageView,
                                              final HttpServletRequest request) {

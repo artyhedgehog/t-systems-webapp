@@ -73,6 +73,8 @@ public class Truck implements LabeledFieldsEntity, Serializable {
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "truck")
     private TruckState state;
 
+    public static final String REG_NUMBER_PATTERN = "[a-zA-Z]{2}\\d{5}";
+
     /**
      * @return
      */

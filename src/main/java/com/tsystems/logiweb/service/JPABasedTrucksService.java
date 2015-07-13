@@ -15,6 +15,8 @@ import com.tsystems.logiweb.entities.Truck;
 import com.tsystems.logiweb.entities.TruckCondition;
 import com.tsystems.logiweb.entities.TruckState;
 import com.tsystems.logiweb.persistence.JPAGenericDAO;
+import com.tsystems.logiweb.service.validation.StringValidation;
+import com.tsystems.logiweb.service.validation.Validation;
 
 /**
  * Implementation of the trucks service based on JPA persistence storage.
@@ -22,13 +24,16 @@ import com.tsystems.logiweb.persistence.JPAGenericDAO;
 public class JPABasedTrucksService extends JPABasedService
                                    implements TrucksService {
 
-    private static final String INFO_UPDATED = "The truck #%d successfully updated.";
-    private static final String INFO_CREATED = "New truck (%s) created with id %d.";
     public static final String ERROR_NOT_ADDED = "Could not add truck.";
     public static final String
             ERROR_NOT_SAVED = "Could not save truck modifications.";
     public static final String
             ERROR_NOT_FOUND = "Could not find truck with id %d.";
+
+    private static final String
+            INFO_UPDATED = "The truck #%d successfully updated.";
+    private static final String
+            INFO_CREATED = "New truck (%s) created with id %d.";
 
     public JPABasedTrucksService(final EntityManager entityManager,
                                  final Logger logger) {
@@ -118,13 +123,16 @@ public class JPABasedTrucksService extends JPABasedService
      * java.lang.Integer, java.lang.Float, java.lang.String, java.lang.String)
      */
     @Override
-    public Truck modifyTruck(final Integer truckId,
-                             final String registrationNumber,
+    public Truck modifyTruck(Integer truckId,
+                             String registrationNumber,
                              final Byte driversQuantity,
                              final Float capacityInTons,
                              final Integer conditionId,
                              final Integer townId)
             throws ServiceException {
+        truckId = new Validation<Integer>("id").notNull().validate(truckId);
+        registrationNumber = new StringValidation("regNumber").trim()
+                .pattern(Truck.REG_NUMBER_PATTERN).validate(registrationNumber);
         try {
             final EntityManager manager = startService();
 
