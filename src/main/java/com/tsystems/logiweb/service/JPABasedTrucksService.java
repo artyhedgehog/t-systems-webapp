@@ -158,11 +158,16 @@ public class JPABasedTrucksService extends JPABasedService
      * com.tsystems.logiweb.service.TrucksService#removeTruck(java.lang.Integer)
      */
     @Override
-    public void removeTruck(final Integer truckId) {
+    public void removeTruck(final Integer truckId) throws ServiceException {
         try {
+            startService();
             buildTruckDAO(getEntityManager()).delete(truckId);
+            commitTransaction();
+        } catch (final PersistenceException e) {
+            throw new ServiceException(
+                    String.format("Could not remove truck #%d.", truckId), e);
         } finally {
-            closeEntityManager();
+            cleanupService();
         }
     }
 

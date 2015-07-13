@@ -51,8 +51,9 @@ public interface TrucksService {
 
     /**
      * @param truckId
+     * @throws ServiceException
      */
-    void removeTruck(Integer truckId);
+    void removeTruck(Integer truckId) throws ServiceException;
 
     /**
      * Get list of all truck conditions.
