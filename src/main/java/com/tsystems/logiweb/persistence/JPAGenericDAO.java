@@ -7,10 +7,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.apache.log4j.Logger;
+
+import com.tsystems.logiweb.Logiweb;
 
 /**
  * Implementation of generic DAO for JPA.
@@ -22,6 +27,15 @@ import javax.persistence.criteria.Root;
  */
 public class JPAGenericDAO<E, K extends Serializable>
         implements GenericDAO<E, K> {
+
+    private static final String ERROR_COMPARE_WITH_SAMPLE = "Failed comparing entity with sample.";
+
+    protected Logger log;
+
+    private static final String ERROR_ARGUMENT_NULL = "Argument must not be null.";
+
+    private static final String
+            ERROR_NOT_FOUND = "No entity of class %s with id %d found.";
 
     /**
      * Entity manager used by DAO instance.
@@ -43,6 +57,7 @@ public class JPAGenericDAO<E, K extends Serializable>
                          final Class<E> entityClass) {
         entityManager = manager;
         this.entityClass = entityClass;
+        log = Logiweb.getContext().getLogger(getClass());
     }
 
     /*
@@ -52,6 +67,9 @@ public class JPAGenericDAO<E, K extends Serializable>
      */
     @Override
     public final void create(final E entity) {
+        if (null == entity) {
+            throw new IllegalArgumentException(ERROR_ARGUMENT_NULL);
+        }
         entityManager.persist(entity);
     }
 
@@ -77,6 +95,9 @@ public class JPAGenericDAO<E, K extends Serializable>
      */
     @Override
     public final E read(final K id) {
+        if (null == id) {
+            throw new IllegalArgumentException(ERROR_ARGUMENT_NULL);
+        }
         return entityManager.find(entityClass, id);
     }
 
@@ -86,8 +107,11 @@ public class JPAGenericDAO<E, K extends Serializable>
      * @see GenericDAO#update(java.lang.Object)
      */
     @Override
-    public final E update(final E entiry) {
-        return entityManager.merge(entiry);
+    public final E update(final E entity) {
+        if (null == entity) {
+            throw new IllegalArgumentException(ERROR_ARGUMENT_NULL);
+        }
+        return entityManager.merge(entity);
     }
 
     /*
@@ -97,12 +121,23 @@ public class JPAGenericDAO<E, K extends Serializable>
      */
     @Override
     public final void delete(final E entity) {
+        if (null == entity) {
+            throw new IllegalArgumentException(ERROR_ARGUMENT_NULL);
+        }
         entityManager.remove(entityManager.merge(entity));
     }
 
     @Override
     public final void delete(final K id) {
-        entityManager.remove(entityManager.find(entityClass, id));
+        if (null == id) {
+            throw new IllegalArgumentException(ERROR_ARGUMENT_NULL);
+        }
+        final E entity = read(id);
+        if (null == entity) {
+            throw new PersistenceException(
+                    String.format(ERROR_NOT_FOUND, entityClass, id));
+        }
+        entityManager.remove(entity);
     }
 
     /*
@@ -114,6 +149,9 @@ public class JPAGenericDAO<E, K extends Serializable>
      */
     @Override
     public List<E> findBySample(final E entitySample) {
+        if (null == entitySample) {
+            throw new IllegalArgumentException(ERROR_ARGUMENT_NULL);
+        }
         final List<E> all = read();
         final List<E> found = new ArrayList<>();
         for (final E entity : all) {
@@ -138,11 +176,9 @@ public class JPAGenericDAO<E, K extends Serializable>
                     if (null != value && value != field.get(entity)) {
                         return false;
                     }
-                } catch (final IllegalArgumentException e) {
-                    // TODO log exception
-                    return false;
-                } catch (final IllegalAccessException e) {
-                    // TODO log exception
+                } catch (final IllegalArgumentException
+                         | IllegalAccessException e) {
+                    log.error(ERROR_COMPARE_WITH_SAMPLE, e);
                     return false;
                 }
             }
