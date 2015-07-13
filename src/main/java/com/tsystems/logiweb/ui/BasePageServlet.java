@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.tsystems.logiweb.Logiweb;
+
 public abstract class BasePageServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -25,7 +27,12 @@ public abstract class BasePageServlet extends HttpServlet {
     public static final String DEFAULT_LAYOUT = "default.jsp";
     public static final String ERROR_VIEW = "common/error.jsp";
 
-    protected final Logger log = Logger.getLogger(getClass());
+    protected final Logger log;
+
+    public BasePageServlet() {
+        super();
+        log = Logiweb.getContext().getLogger(getClass());
+    }
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
